@@ -1,5 +1,6 @@
 package ir.ac.kntu;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.Colors.green;
@@ -108,11 +109,11 @@ public class LibraryOptions {
     }
 
     public static void libraryMenuAllGames(User user){
-        if (user.ownedItems.isEmpty()) {
+        if (user.getOwnedItems().isEmpty()) {
             System.out.println("No items matched, try again.");
             libraryMenu(user);
         } else {
-            Item chosenGame = chooseItem(user.ownedItems, user);
+            Item chosenGame = chooseItem(user.getOwnedItems(), user);
             chosenGame.showLibraryItemDetails(user);
             libraryMenu(user);
         }
@@ -154,6 +155,7 @@ public class LibraryOptions {
                 break;
             }
             case "4": {
+                Instant loginTime = Instant.now();
                 UserLoggedInPage.showUserLoggedInMenu(user);
                 break;
 
@@ -174,7 +176,7 @@ public class LibraryOptions {
         int itemCounter = 1;
         System.out.println("Items:");
         for (Item item : listOfGivenItems) {
-            System.out.print(itemCounter + ". " + item.name + " => " + item.price + "$");
+            System.out.print(itemCounter + ". " + item.getName() + " => " + item.getPrice() + "$");
             if (user.doesUserOwn(item)) {
                 System.out.print(green + " Owned." + reset);
             }
@@ -195,7 +197,7 @@ public class LibraryOptions {
 
     public static ArrayList<Item> searchByName(String searchName, User user) {
         ArrayList<Item> filteredGameByName = new ArrayList<>();
-        for (Item testGame : user.ownedItems) {
+        for (Item testGame : user.getOwnedItems()) {
             if (testGame.getName().startsWith(searchName)) {
                 filteredGameByName.add(testGame);
             }
@@ -207,7 +209,7 @@ public class LibraryOptions {
     public static ArrayList<Item> searchByPrice(double minPrice, double maxPrice, User user) {
         System.out.println("Choose the game you want to view:");
         ArrayList<Item> filteredGameByPrice = new ArrayList<>();
-        for (Item testGame : user.ownedItems) {
+        for (Item testGame : user.getOwnedItems()) {
             if (testGame.getPrice() >= minPrice && testGame.getPrice() <= maxPrice) {
                 filteredGameByPrice.add(testGame);
             }

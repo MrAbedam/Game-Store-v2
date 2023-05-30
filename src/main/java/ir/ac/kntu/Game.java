@@ -1,20 +1,43 @@
 package ir.ac.kntu;
 
+import java.util.ArrayList;
+
 import static ir.ac.kntu.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 public class Game extends Item{
 
-    String genre;
+    private String genre;
 
+    private int level;
 
+    private boolean isBeta;
 
-    public Game(String name, String description,String genre, double price) {
+    public Game(String name, String description,String genre, double price,int level,boolean isBeta) {
         super(name, description, price);
         this.genre= genre;
+        this.level= level;
+        this.isBeta = isBeta;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfGames.add(this);
 
+    }
+
+
+    public boolean isBeta() {
+        return isBeta;
+    }
+
+    public void setBeta(boolean beta) {
+        isBeta = beta;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public String getGenre() {
@@ -37,22 +60,23 @@ public class Game extends Item{
         makeHashie();
     }
 
-    public void changeGameName(){
+    public void changeGameName(Admin admin){
         System.out.println("Current name: " + this.getName());
         System.out.println("Enter new name:");
         String newName = getString();
         this.setName(newName);
         System.out.println("Name changed!");
         makeHashie();
-        this.changeGameDetail();
+        this.changeGameDetail(admin);
     }
 
-    public void changeGameDetail() {
+
+    public void changeGameDetail(Admin admin) {
         changeGameDetailOptions();
         int detailNumber = getInt();
         switch (detailNumber) {
             case 1: {
-                changeGameName();
+                changeGameName(admin);
                 break;
             }
             case 2: {
@@ -62,7 +86,7 @@ public class Game extends Item{
                 this.setDescription(newDescription);
                 System.out.println("Description changed!");
                 makeHashie();
-                this.changeGameDetail();
+                this.changeGameDetail(admin);
                 break;
             }
             case 3: {
@@ -72,7 +96,7 @@ public class Game extends Item{
                 this.setGenre(newGenre);
                 System.out.println("Genre changed!");
                 makeHashie();
-                this.changeGameDetail();
+                this.changeGameDetail(admin);
                 break;
             }
             case 4: {
@@ -82,16 +106,16 @@ public class Game extends Item{
                 this.setPrice(newPrice);
                 System.out.println("Price changed!");
                 makeHashie();
-                this.changeGameDetail();
+                this.changeGameDetail(admin);
                 break;
             }
             case 5: {
-                AdminGameList.adminGameListMenu();
+                AdminGameList.adminGameListMenu(admin);
                 break;
             }
             default: {
                 System.out.println("Wrong input, redirecting to start of page.");
-                this.changeGameDetail();
+                this.changeGameDetail(admin);
                 break;
             }
         }
@@ -103,6 +127,8 @@ public class Game extends Item{
         System.out.println("Game description: " + this.getDescription());
         System.out.println("Game genre: " + this.getGenre());
         System.out.println("Game price: " + this.getPrice() + "$");
+        System.out.println("Game level: " + this.getLevel());
+        System.out.println("Game rate: " + this.getAvgRate());
         if (user.doesUserOwn(this)) {
             System.out.println(Colors.green + "Owned" + Colors.reset);
             System.out.println("Press Anything to go back to Store menu.");
@@ -133,6 +159,7 @@ public class Game extends Item{
         System.out.println("Game description: " + this.getDescription());
         System.out.println("Game genre: " + this.getGenre());
         System.out.println("Game price: " + this.getPrice() + "$");
+        System.out.println("Game level: " + this.getLevel());
         if (user.doesUserOwn(this)) {
             System.out.println(Colors.green + "Owned" + Colors.reset);
         }

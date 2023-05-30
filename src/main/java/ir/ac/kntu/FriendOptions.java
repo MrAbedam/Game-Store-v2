@@ -1,22 +1,24 @@
 package ir.ac.kntu;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.Get.getInt;
 import static ir.ac.kntu.Get.getString;
+import static ir.ac.kntu.UserHelperClass.showFriends;
 import static ir.ac.kntu.UserMainPage.allUsers;
 
 public class FriendOptions {
 
     public static void showUserList(User user, ArrayList<User> userList) {
         System.out.println("Choose a friend to view their games.");
-        user.showFriends(userList);
+        showFriends(userList);
         int choice = getInt();
         while (choice <= 0 || choice > userList.size()) {
             System.out.println("Wrong input, try again.");
             choice = getInt();
         }
-        userList.get(choice - 1).showGames();
+        UserHelperClass.showGames(userList.get(choice - 1));
     }
 
 
@@ -25,13 +27,13 @@ public class FriendOptions {
     public static void friendSearch(User user){
         System.out.println("Enter name to search:");
         String searchName = getString();
-        ArrayList <User> filteredFriends = user.searchNameFriends(searchName);
+        ArrayList <User> filteredFriends = UserHelperClass.searchNameFriends(searchName,user);
         if (filteredFriends.isEmpty()) {
             System.out.println("No friends matched, press anything to go back.");
             getString();
             return;
         }
-        showUserList(user, user.friends);
+        showUserList(user, user.getFriends());
     }
 
     public static void friendListFindAndReq(User user){
@@ -50,7 +52,7 @@ public class FriendOptions {
         }
         System.out.println("Enter a user to send request to");
         int userCounter = 1;
-        user.showFriends(filtered);
+        showFriends(filtered);
         int choice = getInt();
         while (choice <= 0 || choice > filtered.size()) {
             System.out.println("Wrong input, try again.");
@@ -63,8 +65,8 @@ public class FriendOptions {
     }
 
     public static void removeUsersFromRequests(User sendingUser, User receivingUser){
-        receivingUser.receivedRequests.remove(sendingUser);
-        sendingUser.sentRequests.remove(receivingUser);
+        receivingUser.getReceivedRequests().remove(sendingUser);
+        sendingUser.getSentRequests().remove(receivingUser);
     }
 
     public static String friendOptMenu() {
@@ -79,10 +81,10 @@ public class FriendOptions {
     }
 
     public static void friendShowAllFriends(User user){
-        if (user.friends.isEmpty()) {
+        if (user.getFriends().isEmpty()) {
             System.out.println("No friends!");
         } else {
-            showUserList(user, user.friends);
+            showUserList(user, user.getFriends());
         }
         System.out.println("Press anything to go back");
         getString();
@@ -111,7 +113,8 @@ public class FriendOptions {
                 friendOpt(user);
                 break;
             }
-            case "5": {
+            case "5": {///kir
+                Instant loginTime = Instant.now();
                 UserLoggedInPage.showUserLoggedInMenu(user);
                 break;
             }
@@ -124,7 +127,7 @@ public class FriendOptions {
     }
 
     public static void answerRequest(User user){
-        if(user.receivedRequests.isEmpty()){
+        if(user.getReceivedRequests().isEmpty()){
             System.out.println("No requests to view, Press anything to go back.");
             getString();
             return;
@@ -132,12 +135,12 @@ public class FriendOptions {
         user.showRequests();
         int choice = getInt();
 
-        while(choice< 1 || choice> user.receivedRequests.size()){
+        while(choice< 1 || choice> user.getReceivedRequests().size()){
             System.out.println("Wrong input, try again");
             choice = getInt();
         }
-        System.out.println(user.receivedRequests.get(choice-1).userName+ " has sent you a friend request:");
-        User testUser = user.receivedRequests.get(choice-1);
+        System.out.println(user.getReceivedRequests().get(choice-1).getUserName()+ " has sent you a friend request:");
+        User testUser = user.getReceivedRequests().get(choice-1);
         System.out.println("1.Accept / 2.Decline");
         int reqAns = getInt();
         while (reqAns != 1 && reqAns !=2){
@@ -145,8 +148,8 @@ public class FriendOptions {
             reqAns = getInt();
         }
         if(reqAns == 1){
-            user.friends.add(testUser);
-            testUser.friends.add(user);
+            user.getFriends().add(testUser);
+            testUser.getFriends().add(user);
         }
         removeUsersFromRequests(testUser,user);
         removeUsersFromRequests(user,testUser);

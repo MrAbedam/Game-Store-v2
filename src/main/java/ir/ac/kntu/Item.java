@@ -8,17 +8,17 @@ import static ir.ac.kntu.Colors.reset;
 
 public class Item {
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
-    double price;
+    private double price;
 
-    double avgRate;
+    private double avgRate;
 
-    HashMap<User, Double> rateUser = new HashMap<>();
+    private HashMap<User, Double> rateUser = new HashMap<>();
 
-    ArrayList<String> reviews = new ArrayList<>();
+    private ArrayList<String> reviews = new ArrayList<>();
 
     public void addReview(String review, User user){
         String finalReview = user.getUserName() + ": "+ review;

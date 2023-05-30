@@ -22,7 +22,7 @@ public class UserMainPage {
 
     public static User findUser(String userName) {
         for (User newUser : allUsers) {
-            if (newUser.userName.equals(userName)) {
+            if (newUser.getUserName().equals(userName)) {
                 return newUser;
             }
         }
@@ -30,7 +30,7 @@ public class UserMainPage {
     }
 
     public static boolean checkUserPass(User user, String passWord) {
-        if (user.passWord.equals(passWord)) {
+        if (user.getPassWord().equals(passWord)) {
             return true;
         }
         return false;

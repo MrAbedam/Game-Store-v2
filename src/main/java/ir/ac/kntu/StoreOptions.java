@@ -1,5 +1,6 @@
 package ir.ac.kntu;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.Colors.green;
@@ -17,6 +18,8 @@ public class StoreOptions {
         String ans = getString();
         return ans;
     }
+
+
 
     public static double getMinPrice() {
         System.out.println("Enter the min price:");
@@ -77,6 +80,7 @@ public class StoreOptions {
                 break;
             }
             case "4": {
+                Instant loginTime = Instant.now();
                 UserLoggedInPage.showUserLoggedInMenu(user);
                 break;
 
@@ -130,13 +134,14 @@ public class StoreOptions {
         System.out.println("Items:");
         for (Item item : listOfGivenItems) {
             if (item instanceof Game){
-                System.out.print(itemCounter+ "-Game."+ item.name + " => " + item.price + "$");
+                System.out.print(itemCounter+ "-Game."+ item.getName() + " => " + item.getPrice()+"$ "
+                        +"Level:" + ((Game) item).getLevel() + " Game rate: "+item.getAvgRate());
             }
             else if (item instanceof Monitor){
-                System.out.print(itemCounter+ "*Device."+ item.name+" => "+ item.price +"$");
+                System.out.print(itemCounter+ "*Device."+ item.getName()+" => "+ item.getPrice() +"$");
             }
             else if (item instanceof Controller){
-                System.out.print(itemCounter+ "*Device."+ item.name+" => "+ item.price +"$");
+                System.out.print(itemCounter+ "*Device."+ item.getName()+" => "+ item.getPrice() +"$");
             }
             if (user.doesUserOwn(item)) {
                 System.out.print(green + " Owned." + reset);

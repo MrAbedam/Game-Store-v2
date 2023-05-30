@@ -2,7 +2,7 @@ package ir.ac.kntu;
 
 public class Device extends Item{
 
-    int supplyNumber;
+    private int supplyNumber;
 
     public Device(String name, String description, double price, int supplyNumber) {
         super(name, description, price);

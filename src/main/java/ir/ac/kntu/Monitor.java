@@ -48,6 +48,16 @@ public class Monitor extends Device{
         }
     }
 
+    public int numberOfOwnedMonitors(User user){
+        int num = 0;
+        for (Monitor testMonitor: user.getOwnedMonitors() ){
+            if (testMonitor == this){
+                num++;
+            }
+        }
+        return num;
+    }
+
     public void showMonitorDetails(User user) {
         System.out.println("Here are the details of the mentioned monitor:");
         System.out.println("Monitor name: " + this.getName());
@@ -56,12 +66,10 @@ public class Monitor extends Device{
         System.out.println("Monitor X and Y: "+this.getxSize()+" "+this.getySize());
         System.out.println("Monitor price: " + this.getPrice() + "$");
         if (user.doesUserOwn(this)) {
-            System.out.println(Colors.green + "Owned" + Colors.reset);
-            System.out.println("Press Anything to go back to Store menu.");
-            getString();
-        } else {
+            System.out.println(Colors.green + "Number of owned: "+ this.numberOfOwnedMonitors(user) + Colors.reset);
+        }
             System.out.println(Colors.red + "Not owned" + Colors.reset);
-            System.out.println("Enter 'BUY' to buy this monitor, enter anything else to go back.");
+            System.out.println(Colors.blue +"Enter 'BUY' to buy this Monitor, enter anything else to go back."+Colors.reset);
             String ans = getString();
             ans = ans.toUpperCase();
             switch (ans) {
@@ -76,7 +84,6 @@ public class Monitor extends Device{
                     break;
                 }
             }
-        }
     }
 
     public int getUpdateRate() {

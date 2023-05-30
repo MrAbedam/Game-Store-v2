@@ -1,6 +1,8 @@
 package ir.ac.kntu;
 
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.Get.getString;
@@ -23,6 +25,7 @@ public class UserGetIn {
             StoreProgram.userChoices();
         } else {
             System.out.println("Logged in successfully!");
+            Instant loginTime = Instant.now();
             UserLoggedInPage.showUserLoggedInMenu(testUser);
         }
     }
@@ -70,6 +73,8 @@ public class UserGetIn {
         User newUser = new User(username, password, email, phoneNumber);
         allUsers.add(newUser);
         System.out.println("User added");
+        Instant loginTime = Instant.now();
         UserLoggedInPage.showUserLoggedInMenu(newUser);
+
     }
 }
