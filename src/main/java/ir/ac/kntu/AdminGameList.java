@@ -16,6 +16,8 @@ public class AdminGameList {
 
     static ArrayList<Item> listOfItems = new ArrayList<>();
 
+    static ArrayList<Device> listOfDevices = new ArrayList<>();
+
     public static ArrayList<Game> findGameByName(String gameName) {
         ArrayList<Game> filteredGames = new ArrayList<>();
         for (Game foundGame : listOfGames) {
@@ -28,7 +30,7 @@ public class AdminGameList {
 
     public static ArrayList<Device> findDeviceByName(String deviceName) {
         ArrayList<Device> filteredDevice = new ArrayList<>();
-        for (Device foundDevice : listOfMonitors) {
+        for (Device foundDevice : listOfDevices) {
             if (foundDevice.getName().equals(deviceName)) {
                 filteredDevice.add(foundDevice);
             }
@@ -51,6 +53,7 @@ public class AdminGameList {
                     if (testGame == item) {
                         testUser.getOwnedGames().remove(item);
                         listOfGames.remove(item);
+                        listOfItems.remove(item);
                         break;
                     }
                 }
@@ -59,6 +62,8 @@ public class AdminGameList {
                     if (testMonitor == item) {
                         testUser.getOwnedMonitors().remove(item);
                         listOfMonitors.remove(item);
+                        listOfItems.remove(item);
+                        listOfDevices.remove(item);
                         break;
                     }
                 }
@@ -67,6 +72,8 @@ public class AdminGameList {
                     if (testController == item) {
                         testUser.getOwnedControllers().remove(item);
                         listOfControllers.remove(item);
+                        listOfItems.remove(item);
+                        listOfDevices.remove(item);
                         break;
                     }
                 }

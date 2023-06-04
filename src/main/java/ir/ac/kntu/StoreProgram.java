@@ -102,7 +102,7 @@ public class StoreProgram {
                 wrongInput = false;
             }
         }
-        if (wrongInput == false){
+        if (wrongInput){
             System.out.println("No admins matched, redirecting to previous page");
             displayMenu();
         }

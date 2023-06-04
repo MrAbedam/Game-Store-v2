@@ -14,24 +14,37 @@ public class AdminMainPage {
         allAdmins.add(admin);
     }
 
+    public static void checkDevRole(Admin admin){
+        if (admin.isDeveloper()){
+            AdminGameList.adminGameListMenu(admin);
+        }else{
+            System.out.println("Sorry you do not have the GAME_DEVELOPER role.");
+            displayAdminPage(admin);
+        }
+    }
+
     public static void displayAdminPage(Admin admin) {
         System.out.println("Welcome to admin main page "+ admin.getUsername());
         System.out.println("1.Games");
         System.out.println("2.Users");
-        System.out.println("3.Return");
+        System.out.println("3.Accessories");
+        System.out.println("4.Return");
         makeHashie();
         Scanner sc = new Scanner(System.in);
         String ans = sc.nextLine();
         switch (ans) {
             case "1": {
-                AdminGameList.adminGameListMenu(admin);
+                checkDevRole(admin);
                 break;
             }
             case "2": {
                 AdminUserList.adminUserListMenu(admin);
                 break;
             }
-            case "3": {
+            case "3":{
+                AdminDeviceList.adminDeviceListMenu(admin);
+            }
+            case "4": {
                 System.out.println("Redirecting to main menu.");
                 StoreProgram.displayMenu();
                 break;

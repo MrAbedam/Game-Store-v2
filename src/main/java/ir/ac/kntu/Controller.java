@@ -1,5 +1,7 @@
 package ir.ac.kntu;
 
+import static ir.ac.kntu.AdminDeviceList.changeControllerDetails;
+import static ir.ac.kntu.Get.getInt;
 import static ir.ac.kntu.Get.getString;
 
 public class Controller extends Device{
@@ -14,6 +16,8 @@ public class Controller extends Device{
         this.doesHaveWire = doesHaveWire;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfControllers.add(this);
+        AdminGameList.listOfDevices.add(this);
+
     }
 
     public boolean getDoesHaveWire() {
@@ -79,6 +83,52 @@ public class Controller extends Device{
                     break;
             }
         }
+    }
+
+
+    public void changeName(Admin admin){
+        System.out.println("Current name: " + this.getName());
+        System.out.println("Enter new name:");
+        String newName = getString();
+        this.setName(newName);
+        System.out.println("Name changed!");
+        changeControllerDetails(this, admin);
+    }
+
+    public void changeDescription(Admin admin){
+        System.out.println("Current description: " + this.getDescription());
+        System.out.println("Enter new description:");
+        String newDescription = getString();
+        this.setDescription(newDescription);
+        System.out.println("Description changed!");
+        changeControllerDetails(this, admin);
+    }
+
+    public void changeSupplyNumber(Admin admin){
+        System.out.println("Current supply number: " + this.getSupplyNumber());
+        System.out.println("Enter new supply number:");
+        int newSupplyNumber = getInt();
+        this.setSupplyNumber(newSupplyNumber);
+        System.out.println("Supply number changed!");
+        changeControllerDetails(this, admin);
+    }
+
+    public void changePrice(Admin admin){
+        System.out.println("Current Price: " + this.getPrice());
+        System.out.println("Enter new price:");
+        int newPrice = getInt();
+        this.setPrice(newPrice);
+        System.out.println("Price changed!");
+        changeControllerDetails(this, admin);
+    }
+
+    public void changeConsole(Admin admin){
+        System.out.println("Current console: " + this.getConsole());
+        System.out.println("Enter new console:");
+        String newConsole = getString();
+        this.setConsole(newConsole);
+        System.out.println("Console changed!");
+        changeControllerDetails(this, admin);
     }
 
     public void setDoesHaveWire(boolean doesHaveWire) {
