@@ -110,10 +110,9 @@ public class StoreProgram {
 
     public static void main(String[] args) {
         Admin admin = new Admin("aaa","123");
-        admin.addDeveloperRole();
-        admin.addSellerRole();
+        admin.addMainRole();
         Admin adminSell = new Admin("sell","sell");
-        adminSell.addDeveloperRole();
+        adminSell.addSellerRole();
         Admin adminDev = new Admin("dev","dev");
         adminDev.addDeveloperRole();
 

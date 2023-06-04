@@ -2,12 +2,15 @@ package ir.ac.kntu;
 
 import java.util.ArrayList;
 
+import static ir.ac.kntu.AdminMainPage.allAdmins;
 import static ir.ac.kntu.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 public class Game extends Item{
 
     private String genre;
+
+    private ArrayList<Admin> developers = new ArrayList<>();
 
     private int level;
 
@@ -20,9 +23,29 @@ public class Game extends Item{
         this.isBeta = isBeta;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfGames.add(this);
-
+        for (Admin testAdmin : allAdmins){
+            if (testAdmin.isMainAdmin()){
+                this.developers.add(testAdmin);
+            }
+        }
     }
 
+    public ArrayList<Admin> getDevelopers() {
+        return developers;
+    }
+
+    public void addDev(Admin admin){
+        this.getDevelopers().add(admin);
+    }
+
+    public boolean isPartOfTeam(Admin admin){
+        for (Admin testAdmin: this.getDevelopers()){
+            if (testAdmin == admin){
+                return  true;
+            }
+        }
+        return false;
+    }
 
     public boolean isBeta() {
         return isBeta;

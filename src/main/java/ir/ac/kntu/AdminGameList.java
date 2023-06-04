@@ -2,6 +2,7 @@ package ir.ac.kntu;
 
 import java.util.ArrayList;
 
+import static ir.ac.kntu.AdminMainPage.allDevs;
 import static ir.ac.kntu.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
@@ -46,35 +47,31 @@ public class AdminGameList {
 
 
     public static void removeItem(Item item) {
-
         for (User testUser : UserMainPage.allUsers) {
-            if (item instanceof Game && !testUser.getOwnedGames().isEmpty()) {
+            if (item instanceof Game) {
+                listOfGames.remove(item);
+                listOfItems.remove(item);
                 for (Game testGame : testUser.getOwnedGames()) {
                     if (testGame == item) {
                         testUser.getOwnedGames().remove(item);
-                        listOfGames.remove(item);
-                        listOfItems.remove(item);
-                        break;
                     }
                 }
-            } else if (item instanceof Monitor && !testUser.getOwnedMonitors().isEmpty()) {
+            } else if (item instanceof Monitor) {
+                listOfMonitors.remove(item);
+                listOfItems.remove(item);
+                listOfDevices.remove(item);
                 for (Monitor testMonitor : testUser.getOwnedMonitors()) {
                     if (testMonitor == item) {
                         testUser.getOwnedMonitors().remove(item);
-                        listOfMonitors.remove(item);
-                        listOfItems.remove(item);
-                        listOfDevices.remove(item);
-                        break;
                     }
                 }
-            } else if (item instanceof Controller && !testUser.getOwnedControllers().isEmpty()) {
+            } else if (item instanceof Controller) {
+                listOfControllers.remove(item);
+                listOfItems.remove(item);
+                listOfDevices.remove(item);
                 for (Controller testController : testUser.getOwnedControllers()) {
                     if (testController == item) {
                         testUser.getOwnedControllers().remove(item);
-                        listOfControllers.remove(item);
-                        listOfItems.remove(item);
-                        listOfDevices.remove(item);
-                        break;
                     }
                 }
             }
@@ -99,7 +96,12 @@ public class AdminGameList {
                 gameChoice = getInt();
             }
             Game chosenGame = filteredList.get(gameChoice - 1);
-            changeGameDetail(chosenGame,admin);
+            if (chosenGame.isPartOfTeam(admin)){
+                changeGameDetail(chosenGame,admin);
+            }else {
+                System.out.println("Sorry you are not a part of the production team for this game!");
+            }
+            adminGameListMenu(admin);
         }
     }
 
@@ -117,7 +119,7 @@ public class AdminGameList {
         String ans = getString();
         switch (ans) {
             case "1": {
-                makeGame();
+                makeGame(admin);
                 adminGameListMenu(admin);
                 break;
             }
@@ -138,7 +140,11 @@ public class AdminGameList {
                     showGivenListOfGames(filteredList);
                     int gameChoice = getInt();
                     Game chosenGame = filteredList.get((gameChoice - 1) % filteredList.size());
-                    removeItem(chosenGame);
+                    if (chosenGame.isPartOfTeam(admin)){
+                        removeItem(chosenGame);
+                    }else {
+                        System.out.println("Sorry you are not a part of the production team");
+                    }
                     adminGameListMenu(admin);
                 }
                 break;
@@ -169,8 +175,26 @@ public class AdminGameList {
         System.out.println("2.Description");
         System.out.println("3.Genre");
         System.out.println("4.Price");
-        System.out.println("5.Return");
+        System.out.println("5.Developer team");
+        System.out.println("6.Return");
         makeHashie();
+    }
+
+    public static void chooseAndAddDeveloper(Game game){
+        int devCounter = 1;
+        System.out.println("Choose A developer to add to your game.");
+        for (Admin testAdmin: allDevs){
+            System.out.println(devCounter+ ". "+ testAdmin.getUsername());
+            devCounter++;
+        }
+        int ans = (getInt()-1)%devCounter;
+        Admin newDev = allDevs.get(ans);
+        if (game.isPartOfTeam(newDev)){
+            System.out.println(newDev.getUsername()+" was already one of the developers of this game");
+        }else {
+            System.out.println(newDev.getUsername()+" has been added to the developer team.");
+            game.addDev(newDev);
+        }
     }
 
     public static void changeGameDetailName(Game game) {
@@ -221,7 +245,11 @@ public class AdminGameList {
                 changeGameDetail(game,admin);
                 break;
             }
-            case 5: {
+            case 5:{
+                chooseAndAddDeveloper(game);
+                changeGameDetail(game,admin);
+            }
+            case 6: {
                 adminGameListMenu(admin);
                 break;
             }
@@ -233,7 +261,7 @@ public class AdminGameList {
         }
     }
 
-    public static void makeGame() {
+    public static void makeGame(Admin admin) {
         System.out.println("Enter game's name:");
         String gameName = getString();
         System.out.println("Enter game's description");
@@ -254,7 +282,7 @@ public class AdminGameList {
         }
         Game newGame = new Game(gameName, gameDescription, gameGenre, gamePrice, gameLevel, isGameBeta);
         System.out.println("Game added!");
-        makeHashie();
+        newGame.addDev(admin);
     }
 
     public static void addItem(Item item) {

@@ -1,6 +1,6 @@
 package ir.ac.kntu;
 
-import static ir.ac.kntu.AdminMainPage.allAdmins;
+import static ir.ac.kntu.AdminMainPage.*;
 
 public class Admin {
     private String roles = "";
@@ -25,10 +25,25 @@ public class Admin {
 
     public void addDeveloperRole(){
         this.roles += " Developer ";
+        allDevs.add(this);
     }
 
     public void addSellerRole(){
         this.roles += " Seller ";
+        allSellers.add(this);
+    }
+
+    public void addMainRole(){
+        this.roles += "Seller Developer Main";
+        allSellers.add(this);
+        allDevs.add(this);
+    }
+
+    public boolean isMainAdmin(){
+        if (this.roles.contains("Main")){
+            return true;
+        }
+        return false;
     }
 
     public void removeDeveloperRole(){
