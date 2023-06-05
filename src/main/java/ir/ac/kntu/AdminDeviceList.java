@@ -26,12 +26,12 @@ public class AdminDeviceList {
         String ans = getString();
         switch (ans) {
             case "1": {
-                makeMonitor();
+                makeMonitor(admin);
                 adminDeviceListMenu(admin);
                 break;
             }
             case "2": {
-                makeController();
+                makeController(admin);
                 adminDeviceListMenu(admin);
                 break;
             }
@@ -46,7 +46,7 @@ public class AdminDeviceList {
         }
     }
 
-    public static void makeMonitor() {
+    public static void makeMonitor(Admin admin) {
         System.out.println("Enter monitor's name:");
         String name = getString();
         System.out.println("Enter monitor's description");
@@ -64,11 +64,12 @@ public class AdminDeviceList {
         System.out.println("Enter response time");
         int responseTime = getInt();
         Monitor newMonitor = new Monitor(name, description, price, supplyNumber, updateRate, xSize, ySize, responseTime);
+        newMonitor.setSeller(admin);
         System.out.println("Monitor added!");
     }
 
 
-    public static void makeController() {
+    public static void makeController(Admin admin) {
         System.out.println("Enter controller's name:");
         String name = getString();
         System.out.println("Enter controller's description");
@@ -88,6 +89,7 @@ public class AdminDeviceList {
             doesHaveWire = false;
         }
         Controller newController = new Controller(name, description, price, supplyNumber, console, doesHaveWire);
+        newController.setSeller(admin);
         System.out.println("Monitor added!");
     }
 
@@ -104,7 +106,12 @@ public class AdminDeviceList {
             showGivenListOfDevices(filteredList);
             int deviceChoice = getInt();
             Device chosenDevice = filteredList.get((deviceChoice - 1) % filteredList.size());
-            changeDeviceDetails(chosenDevice, admin);
+            if (chosenDevice.isPartOfSellTeam(admin)){
+                changeDeviceDetails(chosenDevice, admin);
+            }else {
+                System.out.println("Sorry you are not the provider of this device.");
+                adminDeviceListMenu(admin);
+            }
         }
     }
 
@@ -149,6 +156,7 @@ public class AdminDeviceList {
             }
             case "7": {
                 adminDeviceListMenu(admin);
+                break;
             }
             default: {
                 changeControllerDetails(controller, admin);
@@ -206,6 +214,7 @@ public class AdminDeviceList {
             }
             case "9": {
                 adminDeviceListMenu(admin);
+                break;
             }
             default: {
                 changeMonitorDetails(monitor, admin);
@@ -241,7 +250,7 @@ public class AdminDeviceList {
                 break;
             }
             case "3": {
-                System.out.println("Enter game's name.");
+                System.out.println("Enter device's name.");
                 String filterName = getString();
                 ArrayList<Device> filteredList = findDeviceByName(filterName);
                 if (filteredList.isEmpty()) {
@@ -253,7 +262,11 @@ public class AdminDeviceList {
                     showGivenListOfDevices(filteredList);
                     int deviceChoice = getInt();
                     Device chosenDevice = filteredList.get((deviceChoice - 1) % filteredList.size());
-                    removeItem(chosenDevice);
+                    if (chosenDevice.isPartOfSellTeam(admin)){
+                        removeItem(chosenDevice);
+                    }else {
+                        System.out.println("Sorry you are not a part of the sell team.");
+                    }
                     adminDeviceListMenu(admin);
                 }
                 break;

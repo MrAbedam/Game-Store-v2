@@ -3,6 +3,8 @@ package ir.ac.kntu;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static ir.ac.kntu.Get.getInt;
+import static ir.ac.kntu.Get.getString;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 
@@ -53,7 +55,8 @@ public class AdminMainPage {
         System.out.println("1.Games");
         System.out.println("2.Users");
         System.out.println("3.Accessories");
-        System.out.println("4.Return");
+        System.out.println("4.Profile");
+        System.out.println("5.Return");
         makeHashie();
         Scanner sc = new Scanner(System.in);
         String ans = sc.nextLine();
@@ -68,8 +71,13 @@ public class AdminMainPage {
             }
             case "3":{
                 checkSellerRole(admin);
+                break;
             }
-            case "4": {
+            case "4":{
+                showAdminProfile(admin);
+                break;
+            }
+            case "5": {
                 System.out.println("Redirecting to main menu.");
                 StoreProgram.displayMenu();
                 break;
@@ -80,5 +88,131 @@ public class AdminMainPage {
                 break;
             }
         }
+    }
+
+    public static boolean isValidAdminName(String newName){
+        for (Admin testAdmin : allAdmins){
+            if (testAdmin.getUsername().equals(newName)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    public static void mainAdminProf(Admin admin){
+        System.out.println("1.Show profile");
+        System.out.println("2.Change profile");
+        System.out.println("3.Add role to other admins");
+        System.out.println("4.Return");
+        String ans = getString();
+        switch (ans){
+            case "1":{
+                admin.showProfile();
+                mainAdminProf(admin);
+                break;
+            }
+            case "2":{
+                admin.changeAdminDetails();
+                mainAdminProf(admin);
+            }
+            case "3":{
+                changeAdminRoles(admin);
+                break;
+            }
+            case "4":{
+                displayAdminPage(admin);
+                break;
+            }
+            default:{
+                System.out.println("Wrong input redirecting to start of page.");
+                mainAdminProf(admin);
+            }
+        }
+    }
+
+    public static void otherAdminProf(Admin admin){
+        System.out.println("1.Show profile");
+        System.out.println("2.Change profile");
+        System.out.println("3.Return");
+        String ans = getString();
+        switch (ans){
+            case "1":{
+                admin.showProfile();
+                otherAdminProf(admin);
+                break;
+            }
+            case "2":{
+                admin.changeAdminDetails();
+                otherAdminProf(admin);
+            }
+            case "3":{
+                displayAdminPage(admin);
+                break;
+            }
+            default:{
+                System.out.println("Wrong input redirecting to start of page.");
+                otherAdminProf(admin);
+            }
+        }
+    }
+
+    public static void showAdminProfile(Admin admin) {
+        if (admin.isMainAdmin()){
+            mainAdminProf(admin);
+        }
+        else {
+            otherAdminProf(admin);
+        }
+    }
+
+    public static ArrayList<Admin> findAdminsBasedOnName(String name){
+        int adminCounter = 1;
+        ArrayList<Admin> filteredList = new ArrayList<>();
+        for(Admin testAdmin : allAdmins){
+            if (testAdmin.getUsername().startsWith(name)){
+                filteredList.add(testAdmin);
+                System.out.println(adminCounter +" "+testAdmin.getUsername());
+            }
+        }
+        if (filteredList.isEmpty()){
+            return null;
+        }
+        return filteredList;
+    }
+
+    public static void changeAdminRoles(Admin admin){
+        System.out.println("Enter admin name:");
+        String name = getString();
+        ArrayList<Admin> filteredAdmins = findAdminsBasedOnName(name);
+        if (filteredAdmins == null){
+            System.out.println("No admins matched.");
+            mainAdminProf(admin);
+            return;
+        }
+        System.out.println("Choose an admin:");
+        int choice = getInt();
+        Admin curAdmin = filteredAdmins.get(choice-1);
+        System.out.println("Which role do you want to add: 1.Main 2.Developer 3.Seller");
+        String roleNum = getString();
+        switch (roleNum){
+            case "1":{
+                curAdmin.addMainRole();
+                break;
+            }
+            case "2":{
+                curAdmin.addDeveloperRole();
+                break;
+            }
+            case "3":{
+                curAdmin.addSellerRole();
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+        mainAdminProf(admin);
     }
 }

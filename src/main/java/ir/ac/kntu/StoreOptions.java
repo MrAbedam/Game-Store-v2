@@ -134,14 +134,14 @@ public class StoreOptions {
         System.out.println("Items:");
         for (Item item : listOfGivenItems) {
             if (item instanceof Game){
-                System.out.print(itemCounter+ "-Game."+ item.getName() + " => " + item.getPrice()+"$ "
-                        +"Level:" + ((Game) item).getLevel() + " Game rate: "+item.getAvgRate());
+                System.out.print(itemCounter+ "| Game: "+ item.getName() + " => " + item.getPrice()+"$ "
+                        +"Level:" + ((Game) item).getLevel() + " Game rate: "+item.getAvgRate()+" |");
             }
             else if (item instanceof Monitor){
-                System.out.print(itemCounter+ "*Device."+ item.getName()+" => "+ item.getPrice() +"$");
+                System.out.print(itemCounter+ "* Monitor: "+ item.getName()+" => "+ item.getPrice() +"$ *");
             }
             else if (item instanceof Controller){
-                System.out.print(itemCounter+ "*Device."+ item.getName()+" => "+ item.getPrice() +"$");
+                System.out.print(itemCounter+ "* Controller: "+ item.getName()+" => "+ item.getPrice() +"$ *");
             }
             if (user.doesUserOwn(item)) {
                 System.out.print(green + " Owned." + reset);

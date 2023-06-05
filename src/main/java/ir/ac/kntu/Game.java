@@ -30,6 +30,13 @@ public class Game extends Item{
         }
     }
 
+   /* public void sendMesssageToDev(User user){
+        System.out.println("Enter message:");
+        String msg = user.getUserName()+" thoughts on "+ this.getName()+" : ";
+        msg = msg + getString();
+
+    }*/
+
     public ArrayList<Admin> getDevelopers() {
         return developers;
     }
