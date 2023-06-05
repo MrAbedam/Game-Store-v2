@@ -89,42 +89,44 @@ public class StoreProgram {
         boolean wrongInput = true;
         System.out.println("Enter username:");
         String enteredUser = getString();
-        for (Admin testAdmin : allAdmins){
-            if (testAdmin.getUsername().equals(enteredUser)){
+        for (Admin testAdmin : allAdmins) {
+            if (testAdmin.getUsername().equals(enteredUser)) {
                 System.out.println("Enter password");
                 String enterdPass = getString();
-                if (enterdPass.equals(testAdmin.getPassword())){
+                if (enterdPass.equals(testAdmin.getPassword())) {
                     AdminMainPage.displayAdminPage(testAdmin);
-                }else {
+                } else {
                     System.out.println("Wrong password. redirecting to previous page");
                     displayMenu();
                 }
                 wrongInput = false;
             }
         }
-        if (wrongInput){
+        if (wrongInput) {
             System.out.println("No admins matched, redirecting to previous page");
             displayMenu();
         }
     }
 
     public static void main(String[] args) {
-        Admin admin = new Admin("aaa","123");
+        Admin admin = new Admin("aaa", "123");
         admin.addMainRole();
-        Admin adminSell = new Admin("sell","sell");
+        Admin adminSell = new Admin("sell", "sell");
         adminSell.addSellerRole();
-        Admin adminDev = new Admin("dev","dev");
+        Admin adminDev = new Admin("dev", "dev");
         adminDev.addDeveloperRole();
 
-        Game game1 = new Game("CoD: Advanced Warfare",
+        Game game1 = new Game("cod",
                 "Call of Duty: Advanced Warfare is a 2014 first-person shooter video game published by Activision.",
                 "Action fps-shooter",
-                59.99, 2,false);
+                59.99, 2, true);
+        game1.setFirstDev(admin);
         Game game2 = new Game("Dota2",
                 "Dota 2 is a 2013 multiplayer online battle arena video game by Valve. The game is a sequel to Defense of the Ancients," +
                         "a community-created mod for Blizzard Entertainment's Warcraft III: Reign of Chaos.",
                 "Strategy Moba",
-                0.0, 1,false);
+                0.0, 1, false);
+        game2.setFirstDev(adminDev);
         Controller device1 = new Controller("keyboard", "damn", 15, 1, "mmd", true);
         Controller device2 = new Controller("daste", "khar", 150, 2, "mmk", false);
         Monitor device3 = new Monitor("monitor", "khar", 150, 2, 50, 50, 50, 100);
@@ -135,8 +137,6 @@ public class StoreProgram {
         ArrayList<Item> user1Items = new ArrayList<>();
         User user1 = new User("mmd", "12345678Aa", "mmd@gmail.com", "09363340618");
         User user2 = new User("eli", "12345678Aa", "mmd@gmail.com", "09363340618");
-        user1.setXp(101);
-        user1.setLevel(4);
         user1.setWallet(150);
         user2.setWallet(1000);
         allUsers.add(user1);

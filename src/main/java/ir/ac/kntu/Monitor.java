@@ -4,7 +4,7 @@ import static ir.ac.kntu.AdminDeviceList.changeMonitorDetails;
 import static ir.ac.kntu.Get.getInt;
 import static ir.ac.kntu.Get.getString;
 
-public class Monitor extends Device{
+public class Monitor extends Device {
 
     private int updateRate;
 
@@ -15,12 +15,12 @@ public class Monitor extends Device{
     private int responseTime;
 
 
-    public Monitor(String name, String description, double price, int supplyNumber,int updateRate, int xSize, int ySize, int responseTime) {
+    public Monitor(String name, String description, double price, int supplyNumber, int updateRate, int xSize, int ySize, int responseTime) {
         super(name, description, price, supplyNumber);
         this.responseTime = responseTime;
         this.xSize = xSize;
         this.ySize = ySize;
-        this. updateRate = updateRate;
+        this.updateRate = updateRate;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfMonitors.add(this);
         AdminGameList.listOfDevices.add(this);
@@ -31,30 +31,30 @@ public class Monitor extends Device{
         System.out.println("Here are the details of the mentioned monitor:");
         System.out.println("Monitor name: " + this.getName());
         System.out.println("Monitor description: " + this.getDescription());
-        System.out.println("Monitor update rate: " +this.getUpdateRate());
-        System.out.println("Monitor X and Y: "+this.getxSize()+" "+this.getySize());
+        System.out.println("Monitor update rate: " + this.getUpdateRate());
+        System.out.println("Monitor X and Y: " + this.getxSize() + " " + this.getySize());
         System.out.println("Monitor price: " + this.getPrice() + "$");
         if (user.doesUserOwn(this)) {
             System.out.println(Colors.green + "Owned" + Colors.reset);
         }
         System.out.println("Press Anything to go to community menu, or press 'q' to go back.");
         String ans = getString();
-        switch (ans){
-            case "q":{
+        switch (ans) {
+            case "q": {
                 LibraryOptions.libraryMenu(user);
                 break;
             }
-            default:{
-                LibraryOptions.gameCommunityAndRate(this,user);
+            default: {
+                LibraryOptions.gameCommunityAndRate(this, user);
                 break;
             }
         }
     }
 
-    public int numberOfOwnedMonitors(User user){
+    public int numberOfOwnedMonitors(User user) {
         int num = 0;
-        for (Monitor testMonitor: user.getOwnedMonitors() ){
-            if (testMonitor == this){
+        for (Monitor testMonitor : user.getOwnedMonitors()) {
+            if (testMonitor == this) {
                 num++;
             }
         }
@@ -65,28 +65,27 @@ public class Monitor extends Device{
         System.out.println("Here are the details of the mentioned monitor:");
         System.out.println("Monitor name: " + this.getName());
         System.out.println("Monitor description: " + this.getDescription());
-        System.out.println("Monitor update rate: " +this.getUpdateRate());
-        System.out.println("Monitor X and Y: "+this.getxSize()+" "+this.getySize());
+        System.out.println("Monitor update rate: " + this.getUpdateRate());
+        System.out.println("Monitor X and Y: " + this.getxSize() + " " + this.getySize());
         System.out.println("Monitor price: " + this.getPrice() + "$");
         if (user.doesUserOwn(this)) {
-            System.out.println(Colors.green + "Number of owned: "+ this.numberOfOwnedMonitors(user) + Colors.reset);
+            System.out.println(Colors.green + "Number of owned: " + this.numberOfOwnedMonitors(user) + Colors.reset);
         }
-            System.out.println(Colors.red + "Not owned" + Colors.reset);
-            System.out.println(Colors.blue +"Enter 'BUY' to buy this Monitor, enter anything else to go back."+Colors.reset);
-            String ans = getString();
-            ans = ans.toUpperCase();
-            switch (ans) {
-                case "BUY": {
-                    boolean didBuy = user.buyMonitor(this);
-                    System.out.println("Press Anything to go back to Store menu.");
-                    getString();
-                    break;
-                }
-                default: {
-                    StoreOptions.storeMenu(user);
-                    break;
-                }
+        System.out.println(Colors.blue + "Enter 'BUY' to buy this Monitor, enter anything else to go back." + Colors.reset);
+        String ans = getString();
+        ans = ans.toUpperCase();
+        switch (ans) {
+            case "BUY": {
+                boolean didBuy = user.buyMonitor(this);
+                System.out.println("Press Anything to go back to Store menu.");
+                getString();
+                break;
             }
+            default: {
+                StoreOptions.storeMenu(user);
+                break;
+            }
+        }
     }
 
     public int getUpdateRate() {
@@ -121,7 +120,7 @@ public class Monitor extends Device{
         this.responseTime = responseTime;
     }
 
-    public void changeUpdateRate(Admin admin){
+    public void changeUpdateRate(Admin admin) {
         System.out.println("Current update rate: " + this.getUpdateRate());
         System.out.println("Enter new update rate:");
         int newUpdateRate = getInt();
@@ -130,7 +129,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changexSize(Admin admin){
+    public void changexSize(Admin admin) {
         System.out.println("Current xSize: " + this.getxSize());
         System.out.println("Enter new xSize:");
         int newxSize = getInt();
@@ -139,7 +138,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changeySize(Admin admin){
+    public void changeySize(Admin admin) {
         System.out.println("Current ySize: " + this.getySize());
         System.out.println("Enter new ySize:");
         int newySize = getInt();
@@ -148,7 +147,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changeResponseTime(Admin admin){
+    public void changeResponseTime(Admin admin) {
         System.out.println("Current response time: " + this.getResponseTime());
         System.out.println("Enter new response time:");
         int newResponseTime = getInt();
@@ -157,7 +156,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changeName(Admin admin){
+    public void changeName(Admin admin) {
         System.out.println("Current name: " + this.getName());
         System.out.println("Enter new name:");
         String newName = getString();
@@ -166,7 +165,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changeDescription(Admin admin){
+    public void changeDescription(Admin admin) {
         System.out.println("Current description: " + this.getDescription());
         System.out.println("Enter new description:");
         String newDescription = getString();
@@ -175,7 +174,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changeSupplyNumber(Admin admin){
+    public void changeSupplyNumber(Admin admin) {
         System.out.println("Current supply number: " + this.getSupplyNumber());
         System.out.println("Enter new supply number:");
         int newSupplyNumber = getInt();
@@ -184,7 +183,7 @@ public class Monitor extends Device{
         changeMonitorDetails(this, admin);
     }
 
-    public void changePrice(Admin admin){
+    public void changePrice(Admin admin) {
         System.out.println("Current Price: " + this.getPrice());
         System.out.println("Enter new price:");
         int newPrice = getInt();

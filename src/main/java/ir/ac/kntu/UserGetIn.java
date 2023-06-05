@@ -30,6 +30,7 @@ public class UserGetIn {
         }
     }
 
+
     public static void userSignUp() {
         String username;
         while (true) {
@@ -65,6 +66,10 @@ public class UserGetIn {
                 break;
             }
         }
+        createUserAndLogin(username,password);
+    }
+
+    public static void createUserAndLogin(String username, String password){
         System.out.println("Enter email:");
         String email = getString();
         System.out.println("Enter phone number:");
@@ -75,6 +80,5 @@ public class UserGetIn {
         System.out.println("User added");
         Instant loginTime = Instant.now();
         UserLoggedInPage.showUserLoggedInMenu(newUser);
-
     }
 }

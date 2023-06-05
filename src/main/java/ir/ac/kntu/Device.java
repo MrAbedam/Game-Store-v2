@@ -1,21 +1,21 @@
 package ir.ac.kntu;
 
-public class Device extends Item{
+public class Device extends Item {
 
     private int supplyNumber;
 
-    private Admin Seller;
+    private Admin seller;
 
     public Admin getSeller() {
-        return Seller;
+        return seller;
     }
 
     public void setSeller(Admin seller) {
-        Seller = seller;
+        seller = seller;
     }
 
-    public boolean isPartOfSellTeam(Admin admin){
-        if (admin.isMainAdmin() || admin==getSeller()){
+    public boolean isPartOfSellTeam(Admin admin) {
+        if (admin.isMainAdmin() || admin == getSeller()) {
             return true;
         }
         return false;

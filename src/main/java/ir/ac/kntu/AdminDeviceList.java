@@ -106,9 +106,9 @@ public class AdminDeviceList {
             showGivenListOfDevices(filteredList);
             int deviceChoice = getInt();
             Device chosenDevice = filteredList.get((deviceChoice - 1) % filteredList.size());
-            if (chosenDevice.isPartOfSellTeam(admin)){
+            if (chosenDevice.isPartOfSellTeam(admin)) {
                 changeDeviceDetails(chosenDevice, admin);
-            }else {
+            } else {
                 System.out.println("Sorry you are not the provider of this device.");
                 adminDeviceListMenu(admin);
             }
@@ -237,6 +237,28 @@ public class AdminDeviceList {
         System.out.println("Enter choice:");
     }
 
+    public static void adminRemoveDevice(Admin admin){
+        System.out.println("Enter device's name.");
+        String filterName = getString();
+        ArrayList<Device> filteredList = findDeviceByName(filterName);
+        if (filteredList.isEmpty()) {
+            System.out.println("No Devices Matched. Enter anything to return to Admins DeviceList.");
+            getString();
+            adminDeviceListMenu(admin);
+        } else {
+            System.out.println("Choose a device between the filtered devices:");
+            showGivenListOfDevices(filteredList);
+            int deviceChoice = getInt();
+            Device chosenDevice = filteredList.get((deviceChoice - 1) % filteredList.size());
+            if (chosenDevice.isPartOfSellTeam(admin)) {
+                removeItem(chosenDevice);
+            } else {
+                System.out.println("Sorry you are not a part of the sell team.");
+            }
+            adminDeviceListMenu(admin);
+        }
+    }
+
     public static void adminDeviceListMenu(Admin admin) {
         adminDeviceListMenuOptions();
         String ans = getString();
@@ -250,25 +272,7 @@ public class AdminDeviceList {
                 break;
             }
             case "3": {
-                System.out.println("Enter device's name.");
-                String filterName = getString();
-                ArrayList<Device> filteredList = findDeviceByName(filterName);
-                if (filteredList.isEmpty()) {
-                    System.out.println("No Devices Matched. Enter anything to return to Admins DeviceList.");
-                    getString();
-                    adminDeviceListMenu(admin);
-                } else {
-                    System.out.println("Choose a device between the filtered devices:");
-                    showGivenListOfDevices(filteredList);
-                    int deviceChoice = getInt();
-                    Device chosenDevice = filteredList.get((deviceChoice - 1) % filteredList.size());
-                    if (chosenDevice.isPartOfSellTeam(admin)){
-                        removeItem(chosenDevice);
-                    }else {
-                        System.out.println("Sorry you are not a part of the sell team.");
-                    }
-                    adminDeviceListMenu(admin);
-                }
+                adminRemoveDevice(admin);
                 break;
             }
             case "4": {

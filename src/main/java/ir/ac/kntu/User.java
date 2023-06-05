@@ -1,6 +1,10 @@
 package ir.ac.kntu;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Set;
 
 import static ir.ac.kntu.FriendOptions.removeUsersFromRequests;
 import static ir.ac.kntu.Get.getString;
@@ -8,7 +12,14 @@ import static ir.ac.kntu.StoreProgram.makeHashie;
 import static ir.ac.kntu.UserMainPage.isPasswordValid;
 import static ir.ac.kntu.UserMainPage.usernameExists;
 
-public class User {
+public class User implements Comparable<User> {
+
+    static final double  FIRSTDISCOUNT = 0.9;
+
+    static final double  SECONDDISCOUNT = 0.8;
+
+    static final double  THIRDDISCOUNT = 0.7;
+
     private String userName;
 
     private String passWord;
@@ -48,7 +59,6 @@ public class User {
         this.level = 1;
         this.xp = 1;
     }
-
 
 
     private String phoneNumber;
@@ -177,7 +187,7 @@ public class User {
         System.out.println("Email: " + getEmail());
         System.out.println("Wallet: " + getWallet() + "$");
         System.out.println("Phone number: " + getPhoneNumber());
-        System.out.println(Colors.yellow + "Level: "+ (int)this.getLevel()+Colors.reset);
+        System.out.println(Colors.yellow + "Level: " + (int) this.getLevel() + Colors.reset);
         StoreOptions.showStoreGames(ownedItems, this);
         System.out.println("Press anything to go back.");
         getString();
@@ -208,41 +218,41 @@ public class User {
         return false;
     }
 
-    public double calculateDiscountLevel(){
-        switch ((int) this.getLevel()){
-            case 1:{
+    public double calculateDiscountLevel() {
+
+        switch ((int) this.getLevel()) {
+            case 2: {
+                return FIRSTDISCOUNT;
+            }
+            case 3: {
+                return SECONDDISCOUNT;
+            }
+            case 4: {
+                return THIRDDISCOUNT;
+            }
+            default:{
                 return 1;
             }
-            case 2:{
-                return 0.9;
-            }
-            case 3:{
-                return 0.8;
-            }
-            case 4:{
-                return 0.7;
-            }
         }
-        return 1;
     }
 
-    public boolean isLevelValid(Game game){
-        return (this.getLevel()>=game.getLevel());
+    public boolean isLevelValid(Game game) {
+        return (this.getLevel() >= game.getLevel());
     }
 
     public boolean buyGame(Game game) {
         double discount = this.calculateDiscountLevel();
-        if (this.getLevel()!=1){
-        System.out.println("Your level is "+(int)this.getLevel()+", you must pay "+ game.getPrice()*discount+"$");
+        if (this.getLevel() != 1) {
+            System.out.println("Your level is " + (int) this.getLevel() + ", you must pay " + game.getPrice() * discount + "$");
         }
         if (this.doesUserOwn(game)) {
             System.out.println("You already own this game!");
             return false;
-        } else if(!isLevelValid(game)){
-            System.out.println("Your level must be at least "+ game.getLevel()+" to buy this game!");
+        } else if (!isLevelValid(game)) {
+            System.out.println("Your level must be at least " + game.getLevel() + " to buy this game!");
             return false;
-        } else if (this.getWallet() >= game.getPrice()*discount) {
-            this.setWallet(this.getWallet() - game.getPrice()*discount);
+        } else if (this.getWallet() >= game.getPrice() * discount) {
+            this.setWallet(this.getWallet() - game.getPrice() * discount);
             System.out.println(game.getName() + " has been added to your games.");
             ownedGames.add(game);
             ownedItems.add(game);
@@ -255,14 +265,14 @@ public class User {
 
     public boolean buyController(Controller controller) {
         double discount = this.calculateDiscountLevel();
-        if (this.getLevel()!=1){
-            System.out.println("Your level is "+(int)this.getLevel()+", you must pay "+ controller.getPrice()*discount+"$");
+        if (this.getLevel() != 1) {
+            System.out.println("Your level is " + (int) this.getLevel() + ", you must pay " + controller.getPrice() * discount + "$");
         }
         if (controller.getSupplyNumber() == 0) {
             System.out.println("Sorry, no more " + controller.getName() + " available.");
             return false;
-        } else if (this.getWallet() >= controller.getPrice()*discount) {
-            this.setWallet(this.getWallet() - controller.getPrice()*discount);
+        } else if (this.getWallet() >= controller.getPrice() * discount) {
+            this.setWallet(this.getWallet() - controller.getPrice() * discount);
             System.out.println(controller.getName() + " has been added to your devices.");
             controller.setSupplyNumber(controller.getSupplyNumber() - 1);
             ownedControllers.add(controller);
@@ -276,17 +286,14 @@ public class User {
 
     public boolean buyMonitor(Monitor monitor) {
         double discount = this.calculateDiscountLevel();
-        if (this.getLevel()!=1){
-            System.out.println("Your level is "+(int)this.getLevel()+", you must pay "+ monitor.getPrice()*discount+"$");
+        if (this.getLevel() != 1) {
+            System.out.println("Your level is " + (int) this.getLevel() + ", you must pay " + monitor.getPrice() * discount + "$");
         }
-        if (this.doesUserOwn(monitor)) {
-            System.out.println("You already own this monitor!");
-            return false;
-        } else if (monitor.getSupplyNumber() == 0) {
+        if (monitor.getSupplyNumber() == 0) {
             System.out.println("Sorry, no more " + monitor.getName() + " available.");
             return false;
-        } else if (this.getWallet() >= monitor.getPrice()*discount) {
-            this.setWallet(this.getWallet() - monitor.getPrice()*discount);
+        } else if (this.getWallet() >= monitor.getPrice() * discount) {
+            this.setWallet(this.getWallet() - monitor.getPrice() * discount);
             System.out.println(monitor.getName() + " has been added to your devices.");
             monitor.setSupplyNumber(monitor.getSupplyNumber() - 1);
             ownedMonitors.add(monitor);
@@ -297,6 +304,7 @@ public class User {
             return false;
         }
     }
+
     public void changeToValidUser() {
         String newUsername;
         System.out.println("Current username: " + this.getUserName());
@@ -352,7 +360,7 @@ public class User {
         }
     }
 
-    public void insertPasswordChange(){
+    public void insertPasswordChange() {
         String newPassword;
         while (true) {
             System.out.println("Enter your new password:");
@@ -384,7 +392,6 @@ public class User {
     }
 
 
-
     public void insertChangeEmail() {
         System.out.println("Current phone email: " + this.getEmail());
         System.out.println("Enter your new email:");
@@ -393,7 +400,6 @@ public class User {
         this.setEmail(newEmail);
         this.changeUserDetails();
     }
-
 
 
     public boolean requestPending(User newUser) {
@@ -441,5 +447,11 @@ public class User {
             System.out.println(requests + ". " + testUser.getUserName() + " has sent you a friend request.");
             requests++;
         }
+    }
+
+
+    @Override
+    public int compareTo(User otherUser) {
+        return (otherUser.getXp() - this.getXp());
     }
 }

@@ -44,6 +44,10 @@ public class Admin {
         allDevs.add(this);
     }
 
+    public void setInbox(ArrayList<String> inbox) {
+        this.inbox = inbox;
+    }
+
     public boolean isMainAdmin() {
         if (this.roles.contains("Main")) {
             return true;
@@ -59,38 +63,41 @@ public class Admin {
         this.inbox.add(msg);
     }
 
+    public void clearInbox() {
+        this.getInbox().clear();
+    }
 
-    public void changeAdminDetails(){
+    public void changeAdminDetails() {
         System.out.println("1.Change name");
         System.out.println("2.Change password");
         System.out.println("3.Return");
         String ans = getString();
-        switch (ans){
-            case "1":{
+        switch (ans) {
+            case "1": {
                 System.out.println("Enter new name");
                 String newName = getString();
-                if (AdminMainPage.isValidAdminName(newName)){
+                if (AdminMainPage.isValidAdminName(newName)) {
                     this.setUsername(newName);
-                }else{
+                } else {
                     System.out.println("This name is already taken.");
                 }
                 break;
             }
-            case "2":{
+            case "2": {
                 System.out.println("Enter new pass");
                 this.setPassword(getString());
                 break;
             }
-            default:{
+            default: {
                 break;
             }
         }
     }
 
-    public void showProfile(){
-        System.out.println("Name : "+ this.getUsername());
-        System.out.println("Password : "+ this.getPassword());
-        System.out.println("Roles : "+ this.getAllRoles());
+    public void showProfile() {
+        System.out.println("Name : " + this.getUsername());
+        System.out.println("Password : " + this.getPassword());
+        System.out.println("Roles : " + this.getAllRoles());
         System.out.println("Enter anything to go back");
         getString();
     }

@@ -22,12 +22,10 @@ public class FriendOptions {
     }
 
 
-
-
-    public static void friendSearch(User user){
+    public static void friendSearch(User user) {
         System.out.println("Enter name to search:");
         String searchName = getString();
-        ArrayList <User> filteredFriends = UserHelperClass.searchNameFriends(searchName,user);
+        ArrayList<User> filteredFriends = UserHelperClass.searchNameFriends(searchName, user);
         if (filteredFriends.isEmpty()) {
             System.out.println("No friends matched, press anything to go back.");
             getString();
@@ -36,16 +34,16 @@ public class FriendOptions {
         showUserList(user, user.getFriends());
     }
 
-    public static void friendListFindAndReq(User user){
+    public static void friendListFindAndReq(User user) {
         System.out.println("Enter name to search:");
         String searchName = getString();
         ArrayList<User> filtered = new ArrayList<>();
-        for( User testUser : allUsers){
-            if (testUser.getUserName().startsWith(searchName) && testUser!=user){
+        for (User testUser : allUsers) {
+            if (testUser.getUserName().startsWith(searchName) && testUser != user) {
                 filtered.add(testUser);
             }
         }
-        if (filtered.isEmpty()){
+        if (filtered.isEmpty()) {
             System.out.println("No users matched, press anything to go back.");
             getString();
             return;
@@ -58,13 +56,13 @@ public class FriendOptions {
             System.out.println("Wrong input, try again.");
             choice = getInt();
         }
-        User subjectUser = filtered.get(choice-1);
+        User subjectUser = filtered.get(choice - 1);
         user.sendRequest(subjectUser);
         System.out.println("Press anything to return.");
         getString();
     }
 
-    public static void removeUsersFromRequests(User sendingUser, User receivingUser){
+    public static void removeUsersFromRequests(User sendingUser, User receivingUser) {
         receivingUser.getReceivedRequests().remove(sendingUser);
         sendingUser.getSentRequests().remove(receivingUser);
     }
@@ -80,7 +78,7 @@ public class FriendOptions {
         return ans;
     }
 
-    public static void friendShowAllFriends(User user){
+    public static void friendShowAllFriends(User user) {
         if (user.getFriends().isEmpty()) {
             System.out.println("No friends!");
         } else {
@@ -126,8 +124,8 @@ public class FriendOptions {
         }
     }
 
-    public static void answerRequest(User user){
-        if(user.getReceivedRequests().isEmpty()){
+    public static void answerRequest(User user) {
+        if (user.getReceivedRequests().isEmpty()) {
             System.out.println("No requests to view, Press anything to go back.");
             getString();
             return;
@@ -135,23 +133,23 @@ public class FriendOptions {
         user.showRequests();
         int choice = getInt();
 
-        while(choice< 1 || choice> user.getReceivedRequests().size()){
+        while (choice < 1 || choice > user.getReceivedRequests().size()) {
             System.out.println("Wrong input, try again");
             choice = getInt();
         }
-        System.out.println(user.getReceivedRequests().get(choice-1).getUserName()+ " has sent you a friend request:");
-        User testUser = user.getReceivedRequests().get(choice-1);
+        System.out.println(user.getReceivedRequests().get(choice - 1).getUserName() + " has sent you a friend request:");
+        User testUser = user.getReceivedRequests().get(choice - 1);
         System.out.println("1.Accept / 2.Decline");
         int reqAns = getInt();
-        while (reqAns != 1 && reqAns !=2){
+        while (reqAns != 1 && reqAns != 2) {
             System.out.println("Wrong input, try again.");
             reqAns = getInt();
         }
-        if(reqAns == 1){
+        if (reqAns == 1) {
             user.getFriends().add(testUser);
             testUser.getFriends().add(user);
         }
-        removeUsersFromRequests(testUser,user);
-        removeUsersFromRequests(user,testUser);
+        removeUsersFromRequests(testUser, user);
+        removeUsersFromRequests(user, testUser);
     }
 }

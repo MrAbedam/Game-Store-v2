@@ -96,26 +96,72 @@ public class AdminGameList {
                 gameChoice = getInt();
             }
             Game chosenGame = filteredList.get(gameChoice - 1);
-            if (chosenGame.isPartOfTeam(admin)){
-                changeGameDetail(chosenGame,admin);
-            }else {
+            if (chosenGame.isPartOfTeam(admin)) {
+                changeGameDetail(chosenGame, admin);
+            } else {
                 System.out.println("Sorry you are not a part of the production team for this game!");
             }
             adminGameListMenu(admin);
         }
     }
 
-    public static void adminGameListMenuOptions() {
+
+    public static void adminRemoveGame(Admin admin) {
+        System.out.println("Enter game's name.");
+        String filterName = getString();
+        ArrayList<Game> filteredList = findGameByName(filterName);
+        if (filteredList.isEmpty()) {
+            System.out.println("No Games Matched. Enter anything to return to Admins gameList.");
+            getString();
+            adminGameListMenu(admin);
+        } else {
+            System.out.println("Choose a game between the filtered games:");
+            showGivenListOfGames(filteredList);
+            int gameChoice = getInt();
+            Game chosenGame = filteredList.get((gameChoice - 1) % filteredList.size());
+            if (chosenGame.isPartOfTeam(admin)) {
+                removeItem(chosenGame);
+            } else {
+                System.out.println("Sorry you are not a part of the production team");
+            }
+            adminGameListMenu(admin);
+        }
+    }
+
+    public static void inboxNotif(Admin admin) {
+        if (admin.getInbox().isEmpty()) {
+            System.out.println("5.Inbox (0)");
+        } else {
+            System.out.println(Colors.purple + "5.Inbox (" + admin.getInbox().size() + ")" + Colors.reset);
+        }
+    }
+
+    public static void adminGameListMenuOptions(Admin admin) {
         System.out.println("Admins gameList page.");
         System.out.println("1.Add a game.");
         System.out.println("2.Change a game's details.");
         System.out.println("3.Remove a game.");
         System.out.println("4.Show all of games.");
-        System.out.println("5.Return.");
+        inboxNotif(admin);
+        System.out.println("6.Return.");
+    }
+
+    public static void showInbox(Admin admin) {
+        if (admin.getInbox().isEmpty()) {
+            System.out.println("Your inbox is empty.");
+        } else {
+            for (String testString : admin.getInbox()) {
+                System.out.println(testString);
+            }
+        }
+        System.out.println("Enter anything to go back.");
+        getString();
+        admin.clearInbox();
+        adminGameListMenu(admin);
     }
 
     public static void adminGameListMenu(Admin admin) {
-        adminGameListMenuOptions();
+        adminGameListMenuOptions(admin);
         String ans = getString();
         switch (ans) {
             case "1": {
@@ -128,25 +174,7 @@ public class AdminGameList {
                 break;
             }
             case "3": {
-                System.out.println("Enter game's name.");
-                String filterName = getString();
-                ArrayList<Game> filteredList = findGameByName(filterName);
-                if (filteredList.isEmpty()) {
-                    System.out.println("No Games Matched. Enter anything to return to Admins gameList.");
-                    getString();
-                    adminGameListMenu(admin);
-                } else {
-                    System.out.println("Choose a game between the filtered games:");
-                    showGivenListOfGames(filteredList);
-                    int gameChoice = getInt();
-                    Game chosenGame = filteredList.get((gameChoice - 1) % filteredList.size());
-                    if (chosenGame.isPartOfTeam(admin)){
-                        removeItem(chosenGame);
-                    }else {
-                        System.out.println("Sorry you are not a part of the production team");
-                    }
-                    adminGameListMenu(admin);
-                }
+                adminRemoveGame(admin);
                 break;
             }
             case "4": {
@@ -158,6 +186,10 @@ public class AdminGameList {
                 break;
             }
             case "5": {
+                showInbox(admin);
+                break;
+            }
+            case "6": {
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }
@@ -180,19 +212,19 @@ public class AdminGameList {
         makeHashie();
     }
 
-    public static void chooseAndAddDeveloper(Game game){
+    public static void chooseAndAddDeveloper(Game game) {
         int devCounter = 1;
         System.out.println("Choose A developer to add to your game.");
-        for (Admin testAdmin: allDevs){
-            System.out.println(devCounter+ ". "+ testAdmin.getUsername());
+        for (Admin testAdmin : allDevs) {
+            System.out.println(devCounter + ". " + testAdmin.getUsername());
             devCounter++;
         }
-        int ans = (getInt()-1)%devCounter;
+        int ans = (getInt() - 1) % devCounter;
         Admin newDev = allDevs.get(ans);
-        if (game.isPartOfTeam(newDev)){
-            System.out.println(newDev.getUsername()+" was already one of the developers of this game");
-        }else {
-            System.out.println(newDev.getUsername()+" has been added to the developer team.");
+        if (game.isPartOfTeam(newDev)) {
+            System.out.println(newDev.getUsername() + " was already one of the developers of this game");
+        } else {
+            System.out.println(newDev.getUsername() + " has been added to the developer team.");
             game.addDev(newDev);
         }
     }
@@ -206,48 +238,60 @@ public class AdminGameList {
         makeHashie();
     }
 
-    public static void changeGameDetail(Game game,Admin admin) {
+    public static void changeGameDescription(Game game){
+        System.out.println("Current description: " + game.getDescription());
+        System.out.println("Enter new description:");
+        String newDescription = getString();
+        game.setDescription(newDescription);
+        System.out.println("Description changed!");
+        makeHashie();
+    }
+
+    public static void changeGameGenre(Game game){
+        System.out.println("Current genre: " + game.getGenre());
+        System.out.println("Enter new genre:");
+        String newGenre = getString();
+        game.setGenre(newGenre);
+        System.out.println("Genre changed!");
+        makeHashie();
+    }
+
+    public static void changeGamePrice(Game game){
+        System.out.println("Current price: " + game.getPrice());
+        System.out.println("Enter new price:");
+        double newPrice = getDouble();
+        game.setPrice(newPrice);
+        System.out.println("Price changed!");
+        makeHashie();
+    }
+
+    public static void changeGameDetail(Game game, Admin admin) {
         changeGameDetailOptions();
         int detailNumber = getInt();
         switch (detailNumber) {
             case 1: {
                 changeGameDetailName(game);
-                changeGameDetail(game,admin);
+                changeGameDetail(game, admin);
                 break;
             }
             case 2: {
-                System.out.println("Current description: " + game.getDescription());
-                System.out.println("Enter new description:");
-                String newDescription = getString();
-                game.setDescription(newDescription);
-                System.out.println("Description changed!");
-                makeHashie();
-                changeGameDetail(game,admin);
+                changeGameDescription(game);
+                changeGameDetail(game, admin);
                 break;
             }
             case 3: {
-                System.out.println("Current genre: " + game.getGenre());
-                System.out.println("Enter new genre:");
-                String newGenre = getString();
-                game.setGenre(newGenre);
-                System.out.println("Genre changed!");
-                makeHashie();
-                changeGameDetail(game,admin);
+                changeGameGenre(game);
+                changeGameDetail(game, admin);
                 break;
             }
             case 4: {
-                System.out.println("Current price: " + game.getPrice());
-                System.out.println("Enter new price:");
-                double newPrice = getDouble();
-                game.setPrice(newPrice);
-                System.out.println("Price changed!");
-                makeHashie();
-                changeGameDetail(game,admin);
+                changeGamePrice(game);
+                changeGameDetail(game, admin);
                 break;
             }
-            case 5:{
+            case 5: {
                 chooseAndAddDeveloper(game);
-                changeGameDetail(game,admin);
+                changeGameDetail(game, admin);
             }
             case 6: {
                 adminGameListMenu(admin);
@@ -255,7 +299,7 @@ public class AdminGameList {
             }
             default: {
                 System.out.println("Wrong input, redirecting to start of page.");
-                changeGameDetail(game,admin);
+                changeGameDetail(game, admin);
                 break;
             }
         }
@@ -283,6 +327,7 @@ public class AdminGameList {
         Game newGame = new Game(gameName, gameDescription, gameGenre, gamePrice, gameLevel, isGameBeta);
         System.out.println("Game added!");
         newGame.addDev(admin);
+        newGame.setFirstDev(admin);
     }
 
     public static void addItem(Item item) {

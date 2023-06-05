@@ -20,13 +20,13 @@ public class Item {
 
     private ArrayList<String> reviews = new ArrayList<>();
 
-    public void addReview(String review, User user){
-        String finalReview = user.getUserName() + ": "+ review;
+    public void addReview(String review, User user) {
+        String finalReview = user.getUserName() + ": " + review;
         this.reviews.add(finalReview);
     }
 
-    public void showReviews(){
-        for(String testReview : this.reviews){
+    public void showReviews() {
+        for (String testReview : this.reviews) {
             System.out.println(blue + testReview + reset);
         }
     }
@@ -53,33 +53,29 @@ public class Item {
         this.avgRate = avgRate;
     }
 
-    public Item(String name, String description, double price){
+    public Item(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public void showLibraryItemDetails(User user){
-        if (this instanceof Game){
-            ((Game)this).showLibraryGameDetails(user);
-        }
-        else if(this instanceof Monitor){
-            ((Monitor)this).showLibraryMonitorDetails(user);
-        }
-        else if (this instanceof Controller){
-            ((Controller)this).showLibraryControllerDetails(user);
+    public void showLibraryItemDetails(User user) {
+        if (this instanceof Game) {
+            ((Game) this).showLibraryGameDetails(user);
+        } else if (this instanceof Monitor) {
+            ((Monitor) this).showLibraryMonitorDetails(user);
+        } else if (this instanceof Controller) {
+            ((Controller) this).showLibraryControllerDetails(user);
         }
     }
 
-    public void showItemDetails(User user){
-        if (this instanceof Game){
-            ((Game)this).showGameDetails(user);
-        }
-        else if(this instanceof Monitor){
-            ((Monitor)this).showMonitorDetails(user);
-        }
-        else if (this instanceof Controller){
-            ((Controller)this).showControllerDetails(user);
+    public void showItemDetails(User user) {
+        if (this instanceof Game) {
+            ((Game) this).showGameDetails(user);
+        } else if (this instanceof Monitor) {
+            ((Monitor) this).showMonitorDetails(user);
+        } else if (this instanceof Controller) {
+            ((Controller) this).showControllerDetails(user);
         }
     }
 
@@ -99,7 +95,6 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 
     public double getPrice() {

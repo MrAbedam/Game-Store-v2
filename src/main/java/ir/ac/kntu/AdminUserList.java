@@ -21,6 +21,8 @@ public class AdminUserList {
 
     }
 
+
+
     public static User findUserBasedOn(Admin admin) {
         findUserBasedOnOptions();
         String ans = getString();
@@ -58,12 +60,7 @@ public class AdminUserList {
                     return (chooseUser(finalUserList));
                 }
             }
-            case "4": {
-                break;
-            }
             default: {
-                System.out.println("Wrong input, redirecting to previous page.");
-                adminUserListMenu(admin);
                 break;
             }
         }
@@ -92,7 +89,7 @@ public class AdminUserList {
         return (userList.get(ans - 1));
     }
 
-    public static String adminUserListMenuOptions(){
+    public static String adminUserListMenuOptions() {
         System.out.println("1.Show a user's details.");
         System.out.println("2.Change a user's details.");
         System.out.println("3.Add a user.");
@@ -102,49 +99,34 @@ public class AdminUserList {
         return ans;
     }
 
-    public static void adminUserRemove(User user,Admin admin){
+    public static void adminUserRemove(User user, Admin admin) {
         allUsers.remove(user);
         System.out.println("User removed.");
         adminUserListMenu(admin);
     }
 
-    public static void adminUserOptionSwitch(String ans,Admin admin){
+
+    public static void adminUserOptionSwitch(String ans, Admin admin) {
         User user;
         switch (ans) {
-            case "1": {
+            case "1","2","4": {
                 user = findUserBasedOn(admin);
                 if (user == null) {
                     adminUserListMenu(admin);
                     break;
-                } else {
+                } else if (ans.equals("1")) {
                     user.showDetails();
                     adminUserListMenu(admin);
-                }
-                break;
-            }
-            case "2": {
-                user = findUserBasedOn(admin);
-                if (user == null) {
-                    adminUserListMenu(admin);
-                    break;
-                } else {
-                    UserHelperClass.changeUserDetailsAsAdmin(user,admin);
+                } else if (ans.equals("2")){
+                    UserHelperClass.changeUserDetailsAsAdmin(user, admin);
+                } else if (ans.equals("4")){
+                    adminUserRemove(user, admin);
                 }
                 break;
             }
             case "3": {
                 addUser(admin);
                 adminUserListMenu(admin);
-                break;
-            }
-            case "4": {
-                user = findUserBasedOn(admin);
-                if (user == null) {
-                    adminUserListMenu(admin);
-                    break;
-                } else {
-                    adminUserRemove(user,admin);
-                }
                 break;
             }
             case "5": {
@@ -161,7 +143,7 @@ public class AdminUserList {
 
     public static void adminUserListMenu(Admin admin) {
         String ans = adminUserListMenuOptions();
-        adminUserOptionSwitch(ans,admin);
+        adminUserOptionSwitch(ans, admin);
     }
 
     public static void addUser(Admin admin) {

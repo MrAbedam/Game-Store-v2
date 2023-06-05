@@ -20,7 +20,6 @@ public class StoreOptions {
     }
 
 
-
     public static double getMinPrice() {
         System.out.println("Enter the min price:");
         double minRange = getDouble();
@@ -33,7 +32,7 @@ public class StoreOptions {
         return maxRange;
     }
 
-    public static void searchForPriceCompressed(double minRange, double maxRange, User user){
+    public static void searchForPriceCompressed(double minRange, double maxRange, User user) {
         ArrayList<Item> foundByPrice = searchByPrice(minRange, maxRange);
         if (foundByPrice.isEmpty()) {
             System.out.println("No games matched, try again.");
@@ -45,18 +44,22 @@ public class StoreOptions {
         }
     }
 
+    public static void storeShowAllGames(User user){
+        if (AdminGameList.listOfItems.isEmpty()) {
+            System.out.println("No Items found, try again");
+            storeMenu(user);
+        } else {
+            Item chosenItem = chooseItem(AdminGameList.listOfItems, user);
+            chosenItem.showItemDetails(user);
+            storeMenu(user);
+        }
+    }
+
     public static void storeMenu(User user) {
         String ans = storeMenuList();
         switch (ans) {
             case "1": {
-                if (AdminGameList.listOfItems.isEmpty()) {
-                    System.out.println("No Items found, try again");
-                    storeMenu(user);
-                } else {
-                    Item chosenItem = chooseItem(AdminGameList.listOfItems, user);
-                    chosenItem.showItemDetails(user);
-                    storeMenu(user);
-                }
+                storeShowAllGames(user);
                 break;
             }
             case "2": {
@@ -76,7 +79,7 @@ public class StoreOptions {
             case "3": {
                 double minRange = getMinPrice();
                 double maxRange = getMaxPrice();
-                searchForPriceCompressed(minRange,maxRange,user);
+                searchForPriceCompressed(minRange, maxRange, user);
                 break;
             }
             case "4": {
@@ -133,15 +136,13 @@ public class StoreOptions {
         int itemCounter = 1;
         System.out.println("Items:");
         for (Item item : listOfGivenItems) {
-            if (item instanceof Game){
-                System.out.print(itemCounter+ "| Game: "+ item.getName() + " => " + item.getPrice()+"$ "
-                        +"Level:" + ((Game) item).getLevel() + " Game rate: "+item.getAvgRate()+" |");
-            }
-            else if (item instanceof Monitor){
-                System.out.print(itemCounter+ "* Monitor: "+ item.getName()+" => "+ item.getPrice() +"$ *");
-            }
-            else if (item instanceof Controller){
-                System.out.print(itemCounter+ "* Controller: "+ item.getName()+" => "+ item.getPrice() +"$ *");
+            if (item instanceof Game) {
+                System.out.print(itemCounter + "| Game: " + item.getName() + " => " + item.getPrice() + "$ "
+                        + "Level:" + ((Game) item).getLevel() + " Game rate: " + item.getAvgRate() + " |");
+            } else if (item instanceof Monitor) {
+                System.out.print(itemCounter + "* Monitor: " + item.getName() + " => " + item.getPrice() + "$ *");
+            } else if (item instanceof Controller) {
+                System.out.print(itemCounter + "* Controller: " + item.getName() + " => " + item.getPrice() + "$ *");
             }
             if (user.doesUserOwn(item)) {
                 System.out.print(green + " Owned." + reset);

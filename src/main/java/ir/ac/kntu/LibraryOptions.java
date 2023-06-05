@@ -10,7 +10,6 @@ import static ir.ac.kntu.Get.*;
 public class LibraryOptions {
 
 
-
     public static double getMinPrice() {
         System.out.println("Enter the min price:");
         double minRange = getDouble();
@@ -25,7 +24,7 @@ public class LibraryOptions {
 
     public static String libraryMenuList() {
         System.out.println("Welcome to Library.");
-        System.out.println("1.Show all of games.");
+        System.out.println("1.Show all of items.");
         System.out.println("2.Search by name.");
         System.out.println("3.Search by price range.");
         System.out.println("4.Return.");
@@ -33,88 +32,102 @@ public class LibraryOptions {
         return ans;
     }
 
-    public static void communityOpt(Item item, User user){
+    public static void communityOpt(Item item, User user) {
         System.out.println("Enter choice:");
         System.out.println("1.Add a review.");
         System.out.println("2.See all reviews.");
         System.out.println("3.Return");
         String ans = getString();
-        switch (ans){
-            case "1":{
-                System.out.println("Enter your review of "+item.getName());
+        switch (ans) {
+            case "1": {
+                System.out.println("Enter your review of " + item.getName());
                 String review = getString();
-                item.addReview(review,user);
+                item.addReview(review, user);
                 System.out.println("Press anything to go back.");
                 getString();
-                communityOpt(item,user);
+                communityOpt(item, user);
                 break;
             }
-            case "2":{
+            case "2": {
                 item.showReviews();
                 System.out.println("Press anything to go back.");
                 getString();
-                communityOpt(item,user);
+                communityOpt(item, user);
                 break;
             }
-            case "3":{
-                gameCommunityAndRate(item,user);
+            case "3": {
+                gameCommunityAndRate(item, user);
                 break;
             }
-            default:{
+            default: {
                 System.out.println("Wrong input, redirecting to start of page.");
-                communityOpt(item,user);
+                communityOpt(item, user);
                 break;
             }
         }
     }
 
-    public static void rateOpt(Item item, User user){
-        System.out.println(item.getName() +"'s current rate: "+ item.getAvgRate());
+    public static void rateOpt(Item item, User user) {
+        System.out.println(item.getName() + "'s current rate: " + item.getAvgRate());
         System.out.println("Enter rate:");
         double newRate = getDouble();
-        while(newRate < 0 || newRate>10){
+        while (newRate < 0 || newRate > 10) {
             System.out.println("Enter a number between 0 and 10!");
-            newRate =getDouble();
+            newRate = getDouble();
         }
-        item.addRate(user,newRate);
+        item.addRate(user, newRate);
         item.updateRate();
-        System.out.println("new Rate: "+ item.getAvgRate());
+        System.out.println("new Rate: " + item.getAvgRate());
     }
 
-    public static void gameCommunityAndRate(Item item, User user){
+    public static void gameCommunityAndRate(Item item, User user) {
         System.out.println("Enter choice:");
         System.out.println("1.Community");
         System.out.println("2.Rate");
         System.out.println("3.Return");
         String ans = getString();
-        switch (ans){
-            case "1":{
+        switch (ans) {
+            case "1": {
                 communityOpt(item, user);
                 break;
             }
-            case "2":{
+            case "2": {
                 rateOpt(item, user);
                 break;
             }
-            case "3":{
+            case "3": {
                 libraryMenu(user);
                 break;
             }
-            default:{
+            default: {
                 System.out.println("Wrong input, redirecting to start of page.");
-                gameCommunityAndRate(item,user);
+                gameCommunityAndRate(item, user);
                 break;
             }
         }
     }
 
-    public static void libraryMenuAllGames(User user){
+    public static void libraryMenuAllGames(User user) {
         if (user.getOwnedItems().isEmpty()) {
             System.out.println("No items matched, try again.");
             libraryMenu(user);
         } else {
             Item chosenGame = chooseItem(user.getOwnedItems(), user);
             chosenGame.showLibraryItemDetails(user);
+            libraryMenu(user);
+        }
+    }
+
+    public static void libraryMenuSearchByName(User user){
+        System.out.println("Enter the starting name:");
+        String name = getString();
+        ArrayList<Item> foundByName = searchByName(name, user);
+        if (foundByName.isEmpty()) {
+            System.out.println("No games matched, try again.");
+            libraryMenu(user);
+        } else {
+            Item chosenItem = chooseItem(foundByName, user);
+            chosenItem.showLibraryItemDetails(user);
             libraryMenu(user);
         }
     }
@@ -127,17 +140,7 @@ public class LibraryOptions {
                 break;
             }
             case "2": {
-                System.out.println("Enter the starting name:");
-                String name = getString();
-                ArrayList<Item> foundByName = searchByName(name, user);
-                if (foundByName.isEmpty()) {
-                    System.out.println("No games matched, try again.");
-                    libraryMenu(user);
-                } else {
-                    Item chosenItem = chooseItem(foundByName, user);
-                    chosenItem.showLibraryItemDetails(user);
-                    libraryMenu(user);
-                }
+                libraryMenuSearchByName(user);
                 break;
             }
             case "3": {
@@ -186,7 +189,7 @@ public class LibraryOptions {
     }
 
     public static Item chooseItem(ArrayList<Item> finalItemList, User user) {
-        showLibraryGames(finalItemList,user);
+        showLibraryGames(finalItemList, user);
         int ans = getInt();
         while ((ans > finalItemList.size() || ans < 1)) {
             System.out.println("Wrong input, try again:");

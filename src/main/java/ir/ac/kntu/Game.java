@@ -6,52 +6,62 @@ import static ir.ac.kntu.AdminMainPage.allAdmins;
 import static ir.ac.kntu.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
-public class Game extends Item{
+public class Game extends Item {
 
     private String genre;
 
     private ArrayList<Admin> developers = new ArrayList<>();
 
+    private Admin firstDev;
+
     private int level;
 
     private boolean isBeta;
 
-    public Game(String name, String description,String genre, double price,int level,boolean isBeta) {
+    public Game(String name, String description, String genre, double price, int level, boolean isBeta) {
         super(name, description, price);
-        this.genre= genre;
-        this.level= level;
+        this.genre = genre;
+        this.level = level;
         this.isBeta = isBeta;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfGames.add(this);
-        for (Admin testAdmin : allAdmins){
-            if (testAdmin.isMainAdmin()){
+        for (Admin testAdmin : allAdmins) {
+            if (testAdmin.isMainAdmin()) {
                 this.developers.add(testAdmin);
             }
         }
     }
 
-   /* public void sendMesssageToDev(User user){
+    public void sendMessageToDev(User user) {
         System.out.println("Enter message:");
-        String msg = user.getUserName()+" thoughts on "+ this.getName()+" : ";
+        String msg = Colors.blue + user.getUserName() + " thoughts on " + this.getName() + " : " + Colors.reset;
         msg = msg + getString();
-
-    }*/
+        this.getFirstDev().getInbox().add(msg);
+    }
 
     public ArrayList<Admin> getDevelopers() {
         return developers;
     }
 
-    public void addDev(Admin admin){
+    public void addDev(Admin admin) {
         this.getDevelopers().add(admin);
     }
 
-    public boolean isPartOfTeam(Admin admin){
-        for (Admin testAdmin: this.getDevelopers()){
-            if (testAdmin == admin){
-                return  true;
+    public boolean isPartOfTeam(Admin admin) {
+        for (Admin testAdmin : this.getDevelopers()) {
+            if (testAdmin == admin) {
+                return true;
             }
         }
         return false;
+    }
+
+    public Admin getFirstDev() {
+        return firstDev;
+    }
+
+    public void setFirstDev(Admin firstDev) {
+        this.firstDev = firstDev;
     }
 
     public boolean isBeta() {
@@ -79,8 +89,7 @@ public class Game extends Item{
     }
 
 
-
-    public void changeGameDetailOptions(){
+    public void changeGameDetailOptions() {
         System.out.println("Which detail do you want to change?");
         System.out.println("1.Name");
         System.out.println("2.Description");
@@ -90,7 +99,7 @@ public class Game extends Item{
         makeHashie();
     }
 
-    public void changeGameName(Admin admin){
+    public void changeGameName(Admin admin) {
         System.out.println("Current name: " + this.getName());
         System.out.println("Enter new name:");
         String newName = getString();
@@ -100,6 +109,15 @@ public class Game extends Item{
         this.changeGameDetail(admin);
     }
 
+    public void changeGameDescription(Admin admin){
+        System.out.println("Current description: " + this.getDescription());
+        System.out.println("Enter new description:");
+        String newDescription = getString();
+        this.setDescription(newDescription);
+        System.out.println("Description changed!");
+        makeHashie();
+        this.changeGameDetail(admin);
+    }
 
     public void changeGameDetail(Admin admin) {
         changeGameDetailOptions();
@@ -110,13 +128,7 @@ public class Game extends Item{
                 break;
             }
             case 2: {
-                System.out.println("Current description: " + this.getDescription());
-                System.out.println("Enter new description:");
-                String newDescription = getString();
-                this.setDescription(newDescription);
-                System.out.println("Description changed!");
-                makeHashie();
-                this.changeGameDetail(admin);
+                changeGameDescription(admin);
                 break;
             }
             case 3: {
@@ -193,17 +205,31 @@ public class Game extends Item{
         if (user.doesUserOwn(this)) {
             System.out.println(Colors.green + "Owned" + Colors.reset);
         }
-        System.out.println("Press Anything to go to community menu, or press 'q' to go back.");
-        String ans = getString();
-        switch (ans){
-            case "q":{
-                LibraryOptions.libraryMenu(user);
-                break;
+        if (!this.isBeta) {
+            System.out.println("Press Anything to go to community menu, or press 'q' to go back.");
+            String ans = getString();
+            switch (ans) {
+                case "q": {
+                    LibraryOptions.libraryMenu(user);
+                    break;
+                }
+                default: {
+                    LibraryOptions.gameCommunityAndRate(this, user);
+                    break;
+                }
             }
-            default:{
-                LibraryOptions.gameCommunityAndRate(this,user);
-                break;
+        } else {
+            System.out.println("Press Anything to leave a feedback, or press 'q' to go back.");
+            String ans = getString();
+            if (!ans.equals("q")) {
+                this.feedBack(user);
             }
+            LibraryOptions.libraryMenu(user);
         }
+    }
+
+    public void feedBack(User user) {
+        this.sendMessageToDev(user);
+        System.out.println("Feedback sent.");
     }
 }

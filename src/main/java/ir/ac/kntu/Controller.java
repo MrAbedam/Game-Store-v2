@@ -4,13 +4,13 @@ import static ir.ac.kntu.AdminDeviceList.changeControllerDetails;
 import static ir.ac.kntu.Get.getInt;
 import static ir.ac.kntu.Get.getString;
 
-public class Controller extends Device{
+public class Controller extends Device {
 
     private String console;
 
     private boolean doesHaveWire;
 
-    public Controller(String name, String description, double price, int supplyNumber,String console,boolean doesHaveWire) {
+    public Controller(String name, String description, double price, int supplyNumber, String console, boolean doesHaveWire) {
         super(name, description, price, supplyNumber);
         this.console = console;
         this.doesHaveWire = doesHaveWire;
@@ -28,30 +28,30 @@ public class Controller extends Device{
         System.out.println("Here are the details of the mentioned controller:");
         System.out.println("Controller name: " + this.getName());
         System.out.println("Controller description: " + this.getDescription());
-        System.out.println("Controller console: " +this.getConsole());
-        System.out.println("Wireless: "+this.getDoesHaveWire());
+        System.out.println("Controller console: " + this.getConsole());
+        System.out.println("Wireless: " + this.getDoesHaveWire());
         System.out.println("Controller price: " + this.getPrice() + "$");
         if (user.doesUserOwn(this)) {
             System.out.println(Colors.green + "Owned" + Colors.reset);
         }
         System.out.println("Press Anything to go to community menu, or press 'q' to go back.");
         String ans = getString();
-        switch (ans){
-            case "q":{
+        switch (ans) {
+            case "q": {
                 LibraryOptions.libraryMenu(user);
                 break;
             }
-            default:{
-                LibraryOptions.gameCommunityAndRate(this,user);
+            default: {
+                LibraryOptions.gameCommunityAndRate(this, user);
                 break;
             }
         }
     }
 
-    public int numberOfOwnedControllers(User user){
+    public int numberOfOwnedControllers(User user) {
         int num = 0;
-        for (Controller testController: user.getOwnedControllers() ){
-            if (testController == this){
+        for (Controller testController : user.getOwnedControllers()) {
+            if (testController == this) {
                 num++;
             }
         }
@@ -62,31 +62,31 @@ public class Controller extends Device{
         System.out.println("Here are the details of the mentioned controller:");
         System.out.println("Controller name: " + this.getName());
         System.out.println("Controller description: " + this.getDescription());
-        System.out.println("Controller console: " +this.getConsole());
-        System.out.println("Wireless: "+this.getDoesHaveWire());
+        System.out.println("Controller console: " + this.getConsole());
+        System.out.println("Wireless: " + this.getDoesHaveWire());
         System.out.println("Controller price: " + this.getPrice() + "$");
         if (user.doesUserOwn(this)) {
-            System.out.println(Colors.green + "Number of owned: "+ this.numberOfOwnedControllers(user) + Colors.reset);
+            System.out.println(Colors.green + "Number of owned: " + this.numberOfOwnedControllers(user) + Colors.reset);
         }
-            System.out.println(Colors.blue +"Enter 'BUY' to buy this Controller, enter anything else to go back."+Colors.reset);
-            String ans = getString();
-            ans = ans.toUpperCase();
-            switch (ans) {
-                case "BUY": {
-                    boolean didBuy = user.buyController(this);
-                    System.out.println("Press Anything to go back to Store menu.");
-                    getString();
-                    break;
-                }
-                default: {
-                    StoreOptions.storeMenu(user);
-                    break;
+        System.out.println(Colors.blue + "Enter 'BUY' to buy this Controller, enter anything else to go back." + Colors.reset);
+        String ans = getString();
+        ans = ans.toUpperCase();
+        switch (ans) {
+            case "BUY": {
+                boolean didBuy = user.buyController(this);
+                System.out.println("Press Anything to go back to Store menu.");
+                getString();
+                break;
+            }
+            default: {
+                StoreOptions.storeMenu(user);
+                break;
             }
         }
     }
 
 
-    public void changeName(Admin admin){
+    public void changeName(Admin admin) {
         System.out.println("Current name: " + this.getName());
         System.out.println("Enter new name:");
         String newName = getString();
@@ -95,7 +95,7 @@ public class Controller extends Device{
         changeControllerDetails(this, admin);
     }
 
-    public void changeDescription(Admin admin){
+    public void changeDescription(Admin admin) {
         System.out.println("Current description: " + this.getDescription());
         System.out.println("Enter new description:");
         String newDescription = getString();
@@ -104,7 +104,7 @@ public class Controller extends Device{
         changeControllerDetails(this, admin);
     }
 
-    public void changeSupplyNumber(Admin admin){
+    public void changeSupplyNumber(Admin admin) {
         System.out.println("Current supply number: " + this.getSupplyNumber());
         System.out.println("Enter new supply number:");
         int newSupplyNumber = getInt();
@@ -113,7 +113,7 @@ public class Controller extends Device{
         changeControllerDetails(this, admin);
     }
 
-    public void changePrice(Admin admin){
+    public void changePrice(Admin admin) {
         System.out.println("Current Price: " + this.getPrice());
         System.out.println("Enter new price:");
         int newPrice = getInt();
@@ -122,7 +122,7 @@ public class Controller extends Device{
         changeControllerDetails(this, admin);
     }
 
-    public void changeConsole(Admin admin){
+    public void changeConsole(Admin admin) {
         System.out.println("Current console: " + this.getConsole());
         System.out.println("Enter new console:");
         String newConsole = getString();

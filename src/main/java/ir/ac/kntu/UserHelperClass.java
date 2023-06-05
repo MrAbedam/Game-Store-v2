@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static ir.ac.kntu.Get.getString;
 import static ir.ac.kntu.StoreProgram.makeHashie;
@@ -10,24 +11,24 @@ import static ir.ac.kntu.UserMainPage.usernameExists;
 public class UserHelperClass {
 
 
-    public static void changeUserDetailsAsAdmin(User user,Admin admin) {
+    public static void changeUserDetailsAsAdmin(User user, Admin admin) {
         changeUserDetailsAsAdminMenu();
         String detailNumber = getString();
         switch (detailNumber) {
             case "1": {
-                changeToValidUserAdmin(user,admin);
+                changeToValidUserAdmin(user, admin);
                 break;
             }
             case "2": {
-                insertPasswordChangeAsAdmin(user,admin);
+                insertPasswordChangeAsAdmin(user, admin);
                 break;
             }
             case "3": {
-                insertChangeEmailAsAdmin(user,admin);
+                insertChangeEmailAsAdmin(user, admin);
                 break;
             }
             case "4": {
-                insertChangePhoneAsAdmin(user,admin);
+                insertChangePhoneAsAdmin(user, admin);
                 break;
             }
             case "5": {
@@ -36,14 +37,14 @@ public class UserHelperClass {
             }
             default: {
                 System.out.println("Wrong input, redirecting to start of page.");
-                changeUserDetailsAsAdmin(user,admin);
+                changeUserDetailsAsAdmin(user, admin);
                 break;
             }
         }
         AdminUserList.adminUserListMenu(admin);
     }
 
-    public static void insertPasswordChangeAsAdmin(User user,Admin admin){
+    public static void insertPasswordChangeAsAdmin(User user, Admin admin) {
         String newPassword;
         while (true) {
             System.out.println("Enter your new password:");
@@ -53,13 +54,13 @@ public class UserHelperClass {
                 String input = getString();
                 if (input.equals("q")) {
                     System.out.println("Password change cancelled.");
-                    changeUserDetailsAsAdmin(user,admin);
+                    changeUserDetailsAsAdmin(user, admin);
                     return;
                 }
             } else {
                 user.setPassWord(newPassword);
                 System.out.println("Password changed.");
-                changeUserDetailsAsAdmin(user,admin);
+                changeUserDetailsAsAdmin(user, admin);
                 break;
             }
         }
@@ -75,7 +76,7 @@ public class UserHelperClass {
         makeHashie();
     }
 
-    public static void changeToValidUserAdmin(User user,Admin admin) {
+    public static void changeToValidUserAdmin(User user, Admin admin) {
         String newUsername;
         System.out.println("Current username: " + user.getUserName());
         while (true) {
@@ -86,34 +87,34 @@ public class UserHelperClass {
                 String input = getString();
                 if (input.equals("q")) {
                     System.out.println("Username change cancelled.");
-                    changeUserDetailsAsAdmin(user,admin);
+                    changeUserDetailsAsAdmin(user, admin);
                     break;
                 }
             } else {
                 user.setUserName(newUsername);
                 System.out.println("Username changed.");
-                changeUserDetailsAsAdmin(user,admin);
+                changeUserDetailsAsAdmin(user, admin);
                 break;
             }
         }
     }
 
-    public static void insertChangePhoneAsAdmin(User user,Admin admin) {
+    public static void insertChangePhoneAsAdmin(User user, Admin admin) {
         System.out.println("Current phone number: " + user.getPhoneNumber());
         System.out.println("Enter your new phone number:");
         String newPhoneNumber = getString();
         user.setPhoneNumber(newPhoneNumber);
         System.out.println("Phone number changed.");
-        changeUserDetailsAsAdmin(user,admin);
+        changeUserDetailsAsAdmin(user, admin);
     }
 
-    public static void insertChangeEmailAsAdmin(User user,Admin admin) {
+    public static void insertChangeEmailAsAdmin(User user, Admin admin) {
         System.out.println("Current phone email: " + user.getEmail());
         System.out.println("Enter your new email:");
         String newEmail = getString();
         System.out.println("Email changed.");
         user.setEmail(newEmail);
-        changeUserDetailsAsAdmin(user,admin);
+        changeUserDetailsAsAdmin(user, admin);
     }
 
 
@@ -142,5 +143,4 @@ public class UserHelperClass {
             gameCounter++;
         }
     }
-
 }
