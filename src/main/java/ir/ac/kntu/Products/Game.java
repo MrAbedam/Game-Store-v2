@@ -1,12 +1,21 @@
-package ir.ac.kntu;
+package ir.ac.kntu.Products;
+
+import ir.ac.kntu.AdminPages.Admin;
+import ir.ac.kntu.AdminPages.AdminGameList;
+import ir.ac.kntu.HelperClasses.Colors;
+import ir.ac.kntu.UserPages.LibraryOptions;
+import ir.ac.kntu.UserPages.StoreOptions;
+import ir.ac.kntu.UserPages.User;
 
 import java.util.ArrayList;
 
-import static ir.ac.kntu.AdminMainPage.allAdmins;
-import static ir.ac.kntu.Get.*;
+import static ir.ac.kntu.AdminPages.AdminMainPage.allAdmins;
+import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 public class Game extends Item {
+
+    private boolean isOutOfOrder;
 
     private String genre;
 
@@ -18,16 +27,18 @@ public class Game extends Item {
 
     private boolean isBeta;
 
-    public Game(String name, String description, String genre, double price, int level, boolean isBeta) {
+    public Game(String name, String description, String genre, double price, int level, boolean isBeta,Admin admin) {
         super(name, description, price);
         this.genre = genre;
         this.level = level;
         this.isBeta = isBeta;
         AdminGameList.listOfItems.add(this);
         AdminGameList.listOfGames.add(this);
+        this.addDev(admin);
+        this.firstDev = admin;
         for (Admin testAdmin : allAdmins) {
             if (testAdmin.isMainAdmin()) {
-                this.developers.add(testAdmin);
+                this.addDev(testAdmin);
             }
         }
     }
@@ -44,14 +55,14 @@ public class Game extends Item {
     }
 
     public void addDev(Admin admin) {
-        this.getDevelopers().add(admin);
+        if (!this.getDevelopers().contains(admin)){
+            this.getDevelopers().add(admin);
+        }
     }
 
     public boolean isPartOfTeam(Admin admin) {
-        for (Admin testAdmin : this.getDevelopers()) {
-            if (testAdmin == admin) {
-                return true;
-            }
+        if (this.getDevelopers().contains(admin)) {
+            return true;
         }
         return false;
     }
@@ -61,6 +72,9 @@ public class Game extends Item {
     }
 
     public void setFirstDev(Admin firstDev) {
+        if (!this.getDevelopers().contains(firstDev)) {
+            this.getDevelopers().add(firstDev);
+        }
         this.firstDev = firstDev;
     }
 
@@ -88,6 +102,13 @@ public class Game extends Item {
         this.genre = genre;
     }
 
+    public boolean isOutOfOrder() {
+        return isOutOfOrder;
+    }
+
+    public void setOutOfOrder(boolean working) {
+        isOutOfOrder = working;
+    }
 
     public void changeGameDetailOptions() {
         System.out.println("Which detail do you want to change?");
@@ -97,6 +118,10 @@ public class Game extends Item {
         System.out.println("4.Price");
         System.out.println("5.Return");
         makeHashie();
+    }
+
+    public void flipIsOutOfOrder(){
+        this.setOutOfOrder(!this.isOutOfOrder());
     }
 
     public void changeGameName(Admin admin) {
@@ -109,7 +134,7 @@ public class Game extends Item {
         this.changeGameDetail(admin);
     }
 
-    public void changeGameDescription(Admin admin){
+    public void changeGameDescription(Admin admin) {
         System.out.println("Current description: " + this.getDescription());
         System.out.println("Enter new description:");
         String newDescription = getString();
@@ -232,4 +257,5 @@ public class Game extends Item {
         this.sendMessageToDev(user);
         System.out.println("Feedback sent.");
     }
+
 }

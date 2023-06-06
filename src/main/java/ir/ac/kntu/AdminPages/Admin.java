@@ -1,11 +1,16 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
+
+import ir.ac.kntu.Products.Game;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static ir.ac.kntu.AdminMainPage.*;
-import static ir.ac.kntu.Get.getString;
+import static ir.ac.kntu.AdminPages.AdminGameList.*;
+import static ir.ac.kntu.AdminPages.AdminMainPage.*;
+import static ir.ac.kntu.HelperClasses.Get.getInt;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 
-public class Admin {
+public class Admin implements Comparable<Admin>{
     private String roles = "";
 
     private String username;
@@ -20,6 +25,8 @@ public class Admin {
         allAdmins.add(this);
     }
 
+    private ArrayList<Game> scheduledEvents = new ArrayList<>();
+
     public String getRoles() {
         return roles;
     }
@@ -30,12 +37,21 @@ public class Admin {
 
     public void addDeveloperRole() {
         this.roles += " Developer ";
-        allDevs.add(this);
+        if (!allDevs.contains(this)){
+            allDevs.add(this);
+        }
+    }
+
+    public void addGameToScheduledEvents(Game game){
+        this.getScheduledEvents().add(game);
     }
 
     public void addSellerRole() {
         this.roles += " Seller ";
         allSellers.add(this);
+        if (!allSellers.contains(this)){
+            allSellers.add(this);
+        }
     }
 
     public void addMainRole() {
@@ -61,6 +77,46 @@ public class Admin {
 
     public void addMsgInbox(String msg) {
         this.inbox.add(msg);
+    }
+
+    public void handleScheduledEvents(){
+        if (!this.isDeveloper() && !this.isMainAdmin()){
+            System.out.println("Sorry you don't have access to this part.");
+        }
+        if(this.getScheduledEvents().isEmpty()){
+            System.out.println("No scheduled events available.");
+        }else {
+            int gameCounter = 0;
+            for (Game testGame : scheduledEvents){
+                System.out.println(gameCounter+1+". "+testGame.getName());
+                gameCounter++;
+            }
+            System.out.println("Choose a game to handle");
+            int ans = getInt();
+            Game currentGame = scheduledEvents.get(ans-1);
+            System.out.println("1.Accept / 2.Decline");
+            int choice = getInt();
+            if (choice==1){
+                System.out.println("Game fixed");
+                this.scheduledEvents.remove(currentGame);
+                currentGame.flipIsOutOfOrder();
+                listOfItems.add(currentGame);
+                listOfGames.add(currentGame);
+                outOfOrderGames.remove(currentGame);
+            }else {
+                sendGameToAnotherAdmin(currentGame);
+            }
+        }
+    }
+
+    public void sendGameToAnotherAdmin(Game game){
+        this.getScheduledEvents().remove(game);
+        int currentIndex = game.getDevelopers().indexOf(this);
+        if (currentIndex == game.getDevelopers().size()-1){
+            game.getDevelopers().get(0).addGameToScheduledEvents(game);
+        }else{
+            game.getDevelopers().get(currentIndex+1).addGameToScheduledEvents(game);
+        }
     }
 
     public void clearInbox() {
@@ -100,6 +156,14 @@ public class Admin {
         System.out.println("Roles : " + this.getAllRoles());
         System.out.println("Enter anything to go back");
         getString();
+    }
+
+    public ArrayList<Game> getScheduledEvents() {
+        return scheduledEvents;
+    }
+
+    public void setScheduledEvents(ArrayList<Game> scheduledEvents) {
+        this.scheduledEvents = scheduledEvents;
     }
 
     public void removeDeveloperRole() {
@@ -148,5 +212,14 @@ public class Admin {
             }
         }
         return allRoles;
+    }
+
+    public int getScheduledEventsSize(){
+        return this.getScheduledEvents().size();
+    }
+
+    @Override
+    public int compareTo( Admin otherAdmin) {
+        return (this.getScheduledEventsSize()-otherAdmin.getScheduledEventsSize());
     }
 }

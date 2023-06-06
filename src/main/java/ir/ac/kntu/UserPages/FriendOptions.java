@@ -1,12 +1,14 @@
-package ir.ac.kntu;
+package ir.ac.kntu.UserPages;
+
+import ir.ac.kntu.HelperClasses.UserHelperClass;
 
 import java.time.Instant;
 import java.util.ArrayList;
 
-import static ir.ac.kntu.Get.getInt;
-import static ir.ac.kntu.Get.getString;
-import static ir.ac.kntu.UserHelperClass.showFriends;
-import static ir.ac.kntu.UserMainPage.allUsers;
+import static ir.ac.kntu.HelperClasses.Get.getInt;
+import static ir.ac.kntu.HelperClasses.Get.getString;
+import static ir.ac.kntu.HelperClasses.UserHelperClass.showFriends;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
 
 public class FriendOptions {
 
@@ -111,9 +113,9 @@ public class FriendOptions {
                 friendOpt(user);
                 break;
             }
-            case "5": {///kir
+            case "5": {
                 Instant loginTime = Instant.now();
-                UserLoggedInPage.showUserLoggedInMenu(user);
+                UserLoginPage.showUserLoggedInMenu(user);
                 break;
             }
             default: {

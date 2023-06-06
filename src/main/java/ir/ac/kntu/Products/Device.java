@@ -1,4 +1,6 @@
-package ir.ac.kntu;
+package ir.ac.kntu.Products;
+
+import ir.ac.kntu.AdminPages.Admin;
 
 public class Device extends Item {
 

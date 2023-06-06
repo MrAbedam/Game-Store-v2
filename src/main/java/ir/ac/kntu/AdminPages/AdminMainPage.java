@@ -1,14 +1,17 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
+
+import ir.ac.kntu.HelperClasses.Colors;
+import ir.ac.kntu.StoreProgram;
+import ir.ac.kntu.UserPages.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
-import static ir.ac.kntu.Get.getInt;
-import static ir.ac.kntu.Get.getString;
+import static ir.ac.kntu.HelperClasses.Get.getInt;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.StoreProgram.makeHashie;
-import static ir.ac.kntu.UserMainPage.allUsers;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -20,7 +23,7 @@ public class AdminMainPage {
 
     static ArrayList<Admin> allSellers = new ArrayList<>();
 
-    static ArrayList<Admin> allAdmins = new ArrayList<>();
+    public static ArrayList<Admin> allAdmins = new ArrayList<>();
 
     public static void addAdmin(Admin admin) {
         allAdmins.add(admin);
@@ -53,15 +56,19 @@ public class AdminMainPage {
         }
     }
 
-
-    public static void displayAdminPage(Admin admin) {
-        System.out.println("Welcome to admin main page " + admin.getUsername() + admin.getRoles());
+    public static void displayAdminPageMenu(Admin admin){
+        System.out.println("Welcome to admin main page " + admin.getUsername());
         System.out.println("1.Games");
         System.out.println("2.Users");
         System.out.println("3.Accessories");
         System.out.println("4.Profile");
         System.out.println("5.Most online users");
-        System.out.println("6.Return");
+        System.out.println("6.Scheduled events");
+        System.out.println("7.Return");
+    }
+
+    public static void displayAdminPage(Admin admin) {
+        displayAdminPageMenu(admin);
         makeHashie();
         Scanner sc = new Scanner(System.in);
         String ans = sc.nextLine();
@@ -86,7 +93,12 @@ public class AdminMainPage {
                 showMostOnlineUsers(admin);
                 break;
             }
-            case "6": {
+            case"6":{
+                admin.handleScheduledEvents();
+                displayAdminPage(admin);
+                break;
+            }
+            case "7": {
                 System.out.println("Redirecting to main menu.");
                 StoreProgram.displayMenu();
                 break;
@@ -182,6 +194,7 @@ public class AdminMainPage {
             if (testAdmin.getUsername().startsWith(name)) {
                 filteredList.add(testAdmin);
                 System.out.println(adminCounter + " " + testAdmin.getUsername());
+                adminCounter++;
             }
         }
         if (filteredList.isEmpty()) {
@@ -234,7 +247,8 @@ public class AdminMainPage {
         Collections.sort(topUsers);
         for (int cnt = 0; cnt < min(3, topUsers.size()); cnt++) {
             if (topUsers.get(cnt) != null) {
-                System.out.println(topUsers.get(cnt).getUserName() + " => " + topUsers.get(cnt).getXp());
+                System.out.println(Colors.purple+(cnt+1)+". "+topUsers.get(cnt).getUserName()
+                        + " => " + topUsers.get(cnt).getXp()+Colors.reset);
             }
         }
         displayAdminPage(admin);

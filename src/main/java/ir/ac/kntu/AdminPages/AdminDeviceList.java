@@ -1,10 +1,14 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
+
+import ir.ac.kntu.Products.Controller;
+import ir.ac.kntu.Products.Device;
+import ir.ac.kntu.Products.Monitor;
 
 import java.util.ArrayList;
 
-import static ir.ac.kntu.AdminGameList.listOfDevices;
-import static ir.ac.kntu.AdminGameList.removeItem;
-import static ir.ac.kntu.Get.*;
+import static ir.ac.kntu.AdminPages.AdminGameList.listOfDevices;
+import static ir.ac.kntu.AdminPages.AdminGameList.removeItem;
+import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 public class AdminDeviceList {

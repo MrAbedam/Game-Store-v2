@@ -1,14 +1,17 @@
-package ir.ac.kntu;
+package ir.ac.kntu.UserPages;
 
 
-import java.time.Duration;
+import ir.ac.kntu.HelperClasses.UserLoginHelper;
+import ir.ac.kntu.Products.Game;
+import ir.ac.kntu.StoreProgram;
+
 import java.time.Instant;
 import java.util.ArrayList;
 
-import static ir.ac.kntu.Get.getString;
-import static ir.ac.kntu.UserMainPage.*;
+import static ir.ac.kntu.HelperClasses.Get.getString;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.*;
 
-public class UserGetIn {
+public class UserRegistrationPage {
 
 
     public static void userLogin() {
@@ -20,13 +23,13 @@ public class UserGetIn {
         if (testUser == null) {
             System.out.println("No user matched try again.");
             StoreProgram.userChoices();
-        } else if (!UserMainPage.checkUserPass(testUser, newPassword)) {
+        } else if (!UserLoginHelper.checkUserPass(testUser, newPassword)) {
             System.out.println("Wrong password or username try again");
             StoreProgram.userChoices();
         } else {
             System.out.println("Logged in successfully!");
             Instant loginTime = Instant.now();
-            UserLoggedInPage.showUserLoggedInMenu(testUser);
+            UserLoginPage.showUserLoggedInMenu(testUser);
         }
     }
 
@@ -79,6 +82,6 @@ public class UserGetIn {
         allUsers.add(newUser);
         System.out.println("User added");
         Instant loginTime = Instant.now();
-        UserLoggedInPage.showUserLoggedInMenu(newUser);
+        UserLoginPage.showUserLoggedInMenu(newUser);
     }
 }

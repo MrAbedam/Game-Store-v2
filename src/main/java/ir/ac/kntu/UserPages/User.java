@@ -1,16 +1,18 @@
-package ir.ac.kntu;
+package ir.ac.kntu.UserPages;
 
-import org.jetbrains.annotations.NotNull;
+import ir.ac.kntu.HelperClasses.Colors;
+import ir.ac.kntu.HelperClasses.UserHelperClass;
+import ir.ac.kntu.Products.Controller;
+import ir.ac.kntu.Products.Game;
+import ir.ac.kntu.Products.Item;
+import ir.ac.kntu.Products.Monitor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Set;
 
-import static ir.ac.kntu.FriendOptions.removeUsersFromRequests;
-import static ir.ac.kntu.Get.getString;
-import static ir.ac.kntu.StoreProgram.makeHashie;
-import static ir.ac.kntu.UserMainPage.isPasswordValid;
-import static ir.ac.kntu.UserMainPage.usernameExists;
+import static ir.ac.kntu.UserPages.FriendOptions.removeUsersFromRequests;
+import static ir.ac.kntu.HelperClasses.Get.getString;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.isPasswordValid;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.usernameExists;
 
 public class User implements Comparable<User> {
 
@@ -254,6 +256,7 @@ public class User implements Comparable<User> {
         } else if (this.getWallet() >= game.getPrice() * discount) {
             this.setWallet(this.getWallet() - game.getPrice() * discount);
             System.out.println(game.getName() + " has been added to your games.");
+            game.setSoldNumber(game.getSoldNumber()+1);
             ownedGames.add(game);
             ownedItems.add(game);
             return true;
@@ -275,6 +278,7 @@ public class User implements Comparable<User> {
             this.setWallet(this.getWallet() - controller.getPrice() * discount);
             System.out.println(controller.getName() + " has been added to your devices.");
             controller.setSupplyNumber(controller.getSupplyNumber() - 1);
+            controller.setSoldNumber(controller.getSoldNumber()+1);
             ownedControllers.add(controller);
             ownedItems.add(controller);
             return true;
@@ -296,6 +300,7 @@ public class User implements Comparable<User> {
             this.setWallet(this.getWallet() - monitor.getPrice() * discount);
             System.out.println(monitor.getName() + " has been added to your devices.");
             monitor.setSupplyNumber(monitor.getSupplyNumber() - 1);
+            monitor.setSoldNumber(monitor.getSoldNumber()+1);
             ownedMonitors.add(monitor);
             ownedItems.add(monitor);
             return true;

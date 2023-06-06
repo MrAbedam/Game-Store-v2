@@ -1,12 +1,17 @@
-package ir.ac.kntu;
+package ir.ac.kntu.Products;
+
+import ir.ac.kntu.UserPages.User;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static ir.ac.kntu.Colors.blue;
-import static ir.ac.kntu.Colors.reset;
+import static ir.ac.kntu.HelperClasses.Colors.blue;
+import static ir.ac.kntu.HelperClasses.Colors.reset;
 
-public class Item {
+public class Item implements Comparable<Item>{
+
+    private int soldNumber;
 
     private String name;
 
@@ -57,6 +62,15 @@ public class Item {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.soldNumber = 0;
+    }
+
+    public int getSoldNumber() {
+        return soldNumber;
+    }
+
+    public void setSoldNumber(int soldNumber) {
+        this.soldNumber = soldNumber;
     }
 
     public void showLibraryItemDetails(User user) {
@@ -105,4 +119,8 @@ public class Item {
         this.price = price;
     }
 
+    @Override
+    public int compareTo(Item otherItem) {
+        return (-this.getSoldNumber()+otherItem.getSoldNumber());
+    }
 }

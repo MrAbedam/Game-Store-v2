@@ -1,4 +1,4 @@
-package ir.ac.kntu;
+package ir.ac.kntu.HelperClasses;
 
 public class Colors {
 

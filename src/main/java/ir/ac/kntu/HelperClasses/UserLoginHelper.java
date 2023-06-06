@@ -1,11 +1,13 @@
-package ir.ac.kntu;
+package ir.ac.kntu.HelperClasses;
+
+import ir.ac.kntu.UserPages.User;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class UserMainPage {
+public class UserLoginHelper {
 
-    static ArrayList<User> allUsers = new ArrayList<>();
+    public static ArrayList<User> allUsers = new ArrayList<>();
 
     public static boolean usernameExists(String username) {
         for (User user : allUsers) {

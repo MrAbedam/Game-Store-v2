@@ -1,13 +1,15 @@
-package ir.ac.kntu;
+package ir.ac.kntu.UserPages;
 
-import static ir.ac.kntu.Get.getString;
+import ir.ac.kntu.StoreProgram;
+
+import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.StoreProgram.loginTime;
 
 import java.time.Duration;
 import java.time.Instant;
 
 
-public class UserLoggedInPage {
+public class UserLoginPage {
 
     public static void userLoginMenu(User user) {
         System.out.println("Welcome to your main page " + user.getUserName());

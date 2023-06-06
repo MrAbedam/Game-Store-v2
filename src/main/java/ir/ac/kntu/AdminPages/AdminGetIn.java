@@ -1,11 +1,10 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
 
-import java.time.Instant;
+import ir.ac.kntu.StoreProgram;
 
-import static ir.ac.kntu.AdminMainPage.allAdmins;
-import static ir.ac.kntu.AdminMainPage.displayAdminPage;
-import static ir.ac.kntu.Get.getString;
-import static ir.ac.kntu.UserMainPage.findUser;
+import static ir.ac.kntu.AdminPages.AdminMainPage.allAdmins;
+import static ir.ac.kntu.AdminPages.AdminMainPage.displayAdminPage;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 
 public class AdminGetIn {
 

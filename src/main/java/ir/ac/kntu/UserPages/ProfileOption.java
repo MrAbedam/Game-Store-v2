@@ -1,9 +1,7 @@
-package ir.ac.kntu;
+package ir.ac.kntu.UserPages;
 
-import java.time.Instant;
-
-import static ir.ac.kntu.Get.getDouble;
-import static ir.ac.kntu.Get.getString;
+import static ir.ac.kntu.HelperClasses.Get.getDouble;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 
 public class ProfileOption {
     public static void profileChoices(User user) {
@@ -33,7 +31,7 @@ public class ProfileOption {
                 break;
             }
             case "4": {
-                UserLoggedInPage.showUserLoggedInMenu(user);
+                UserLoginPage.showUserLoggedInMenu(user);
                 break;
             }
             default: {

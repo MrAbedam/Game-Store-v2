@@ -1,12 +1,16 @@
-package ir.ac.kntu;
+package ir.ac.kntu.HelperClasses;
+
+import ir.ac.kntu.AdminPages.Admin;
+import ir.ac.kntu.AdminPages.AdminUserList;
+import ir.ac.kntu.Products.Game;
+import ir.ac.kntu.UserPages.User;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
-import static ir.ac.kntu.Get.getString;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.StoreProgram.makeHashie;
-import static ir.ac.kntu.UserMainPage.isPasswordValid;
-import static ir.ac.kntu.UserMainPage.usernameExists;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.isPasswordValid;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.usernameExists;
 
 public class UserHelperClass {
 

@@ -1,8 +1,15 @@
-package ir.ac.kntu;
+package ir.ac.kntu.Products;
 
-import static ir.ac.kntu.AdminDeviceList.changeMonitorDetails;
-import static ir.ac.kntu.Get.getInt;
-import static ir.ac.kntu.Get.getString;
+import ir.ac.kntu.AdminPages.Admin;
+import ir.ac.kntu.AdminPages.AdminGameList;
+import ir.ac.kntu.HelperClasses.Colors;
+import ir.ac.kntu.UserPages.LibraryOptions;
+import ir.ac.kntu.UserPages.StoreOptions;
+import ir.ac.kntu.UserPages.User;
+
+import static ir.ac.kntu.AdminPages.AdminDeviceList.changeMonitorDetails;
+import static ir.ac.kntu.HelperClasses.Get.getInt;
+import static ir.ac.kntu.HelperClasses.Get.getString;
 
 public class Monitor extends Device {
 

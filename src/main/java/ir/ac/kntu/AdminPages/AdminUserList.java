@@ -1,10 +1,14 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
+
+import ir.ac.kntu.UserPages.User;
+import ir.ac.kntu.HelperClasses.UserHelperClass;
+import ir.ac.kntu.HelperClasses.UserLoginHelper;
 
 import java.util.ArrayList;
 
-import static ir.ac.kntu.Get.getInt;
-import static ir.ac.kntu.Get.getString;
-import static ir.ac.kntu.UserMainPage.*;
+import static ir.ac.kntu.HelperClasses.Get.getInt;
+import static ir.ac.kntu.HelperClasses.Get.getString;
+import static ir.ac.kntu.HelperClasses.UserLoginHelper.*;
 
 public class AdminUserList {
     public static void findUserBasedOnOptions() {
@@ -194,7 +198,7 @@ public class AdminUserList {
 
     public static ArrayList<User> searchUserByName(String searchName) {
         ArrayList<User> filteredUserByName = new ArrayList<>();
-        for (User testUser : UserMainPage.allUsers) {
+        for (User testUser : UserLoginHelper.allUsers) {
             if (testUser.getUserName().startsWith(searchName)) {
                 filteredUserByName.add(testUser);
             }
@@ -204,7 +208,7 @@ public class AdminUserList {
 
     public static ArrayList<User> searchUserByEmail(String searchEmail) {
         ArrayList<User> filteredUserByEmail = new ArrayList<>();
-        for (User testUser : UserMainPage.allUsers) {
+        for (User testUser : UserLoginHelper.allUsers) {
             if (testUser.getEmail().startsWith(searchEmail)) {
                 filteredUserByEmail.add(testUser);
             }
@@ -214,7 +218,7 @@ public class AdminUserList {
 
     public static ArrayList<User> searchUserByPhoneNum(String searchPhoneNum) {
         ArrayList<User> filteredUserByPhoneNum = new ArrayList<>();
-        for (User testUser : UserMainPage.allUsers) {
+        for (User testUser : UserLoginHelper.allUsers) {
             if (testUser.getEmail().startsWith(searchPhoneNum)) {
                 filteredUserByPhoneNum.add(testUser);
             }

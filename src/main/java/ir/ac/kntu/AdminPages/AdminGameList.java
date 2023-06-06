@@ -1,23 +1,30 @@
-package ir.ac.kntu;
+package ir.ac.kntu.AdminPages;
+
+import ir.ac.kntu.HelperClasses.Colors;
+import ir.ac.kntu.Products.*;
+import ir.ac.kntu.UserPages.User;
+import ir.ac.kntu.HelperClasses.UserLoginHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import static ir.ac.kntu.AdminMainPage.allDevs;
-import static ir.ac.kntu.Get.*;
+import static ir.ac.kntu.AdminPages.AdminMainPage.allDevs;
+import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
 public class AdminGameList {
 
 
-    static ArrayList<Game> listOfGames = new ArrayList<>();
+    public static ArrayList<Game> listOfGames = new ArrayList<>();
 
-    static ArrayList<Controller> listOfControllers = new ArrayList<>();
+    public static ArrayList<Game> outOfOrderGames = new ArrayList<>();
+    public static ArrayList<Controller> listOfControllers = new ArrayList<>();
 
-    static ArrayList<Monitor> listOfMonitors = new ArrayList<>();
+    public static ArrayList<Monitor> listOfMonitors = new ArrayList<>();
 
-    static ArrayList<Item> listOfItems = new ArrayList<>();
+    public static ArrayList<Item> listOfItems = new ArrayList<>();
 
-    static ArrayList<Device> listOfDevices = new ArrayList<>();
+    public static ArrayList<Device> listOfDevices = new ArrayList<>();
 
     public static ArrayList<Game> findGameByName(String gameName) {
         ArrayList<Game> filteredGames = new ArrayList<>();
@@ -47,7 +54,7 @@ public class AdminGameList {
 
 
     public static void removeItem(Item item) {
-        for (User testUser : UserMainPage.allUsers) {
+        for (User testUser : UserLoginHelper.allUsers) {
             if (item instanceof Game) {
                 listOfGames.remove(item);
                 listOfItems.remove(item);
@@ -143,7 +150,84 @@ public class AdminGameList {
         System.out.println("3.Remove a game.");
         System.out.println("4.Show all of games.");
         inboxNotif(admin);
-        System.out.println("6.Return.");
+        System.out.println("6.Out Of order games.");
+        System.out.println("7.Return.");
+    }
+
+    public static void adminGameStatus(Admin admin){
+        if (!admin.isMainAdmin()){
+            System.out.println("You need Main_Role to access this section");
+            adminGameListMenu(admin);
+            return;
+        }
+        System.out.println("1.Flip games to working");
+        System.out.println("2.Flip games to out Of order");
+        System.out.println("3.Return");
+        String ans = getString();
+        switch (ans){
+            case "1":{
+                adminWorkingGames(admin);
+                break;
+            }
+            case "2":{
+                adminOutOfOrderGames(admin);
+                break;
+            }
+            case "3":{
+                adminGameListMenu(admin);
+                break;
+            }
+            default:{
+                adminGameStatus(admin);
+                break;
+            }
+        }
+    }
+
+    public static void adminWorkingGames(Admin admin){
+        int gameCounter = 0;
+        if (outOfOrderGames.isEmpty()){
+            System.out.println("No out of order games.");
+            adminGameListMenu(admin);
+            return;
+        }else {
+            for (Game testGame : outOfOrderGames){
+                System.out.println((gameCounter+1)+". "+testGame.getName()+Colors.red+" => Out of order"+Colors.reset);
+                gameCounter++;
+            }
+        }
+        int ans = getInt();
+        Game currentGame = outOfOrderGames.get(ans-1);
+        currentGame.flipIsOutOfOrder();
+        System.out.println("Status flipped!");
+        listOfGames.add(currentGame);
+        listOfItems.add(currentGame);
+        outOfOrderGames.remove(currentGame);
+        adminGameListMenu(admin);
+    }
+
+    public static void adminOutOfOrderGames(Admin admin){
+        System.out.println("Choose a game to flip working status");
+        int gameCounter = 0;
+        for (Game testGame : listOfGames){
+            System.out.println((gameCounter+1)+". "+testGame.getName()+Colors.green+" => Working"+Colors.reset);
+            gameCounter++;
+        }
+        int ans = getInt();
+        Game currentGame = listOfGames.get(ans-1);
+        currentGame.flipIsOutOfOrder();
+        System.out.println("Status flipped!");
+        listOfGames.remove(currentGame);
+        listOfItems.remove(currentGame);
+        outOfOrderGames.add(currentGame);
+        notifyFreeDeveloper(currentGame);
+        adminGameListMenu(admin);
+    }
+
+    public static void notifyFreeDeveloper(Game game){
+        Collections.sort(game.getDevelopers());
+        Admin freeAdmin = game.getDevelopers().get(0);
+        freeAdmin.addGameToScheduledEvents(game);
     }
 
     public static void showInbox(Admin admin) {
@@ -189,7 +273,11 @@ public class AdminGameList {
                 showInbox(admin);
                 break;
             }
-            case "6": {
+            case "6":{
+                adminGameStatus(admin);
+                break;
+            }
+            case "7": {
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }
@@ -228,6 +316,7 @@ public class AdminGameList {
             game.addDev(newDev);
         }
     }
+
 
     public static void changeGameDetailName(Game game) {
         System.out.println("Current name: " + game.getName());
@@ -324,10 +413,8 @@ public class AdminGameList {
         } else {
             isGameBeta = false;
         }
-        Game newGame = new Game(gameName, gameDescription, gameGenre, gamePrice, gameLevel, isGameBeta);
+        Game newGame = new Game(gameName, gameDescription, gameGenre, gamePrice, gameLevel, isGameBeta,admin);
         System.out.println("Game added!");
-        newGame.addDev(admin);
-        newGame.setFirstDev(admin);
     }
 
     public static void addItem(Item item) {
@@ -347,6 +434,7 @@ public class AdminGameList {
 
     public void addMontior(Monitor monitor) {
         listOfMonitors.add(monitor);
+
     }
 
     public static void addGame(Game game) {
