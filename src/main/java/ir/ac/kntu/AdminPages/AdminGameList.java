@@ -18,6 +18,7 @@ public class AdminGameList {
     public static ArrayList<Game> listOfGames = new ArrayList<>();
 
     public static ArrayList<Game> outOfOrderGames = new ArrayList<>();
+
     public static ArrayList<Controller> listOfControllers = new ArrayList<>();
 
     public static ArrayList<Monitor> listOfMonitors = new ArrayList<>();

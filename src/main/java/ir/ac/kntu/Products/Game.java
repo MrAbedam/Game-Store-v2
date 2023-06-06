@@ -27,7 +27,7 @@ public class Game extends Item {
 
     private boolean isBeta;
 
-    public Game(String name, String description, String genre, double price, int level, boolean isBeta,Admin admin) {
+    public Game(String name, String description, String genre, double price, int level, boolean isBeta, Admin admin) {
         super(name, description, price);
         this.genre = genre;
         this.level = level;
@@ -55,7 +55,7 @@ public class Game extends Item {
     }
 
     public void addDev(Admin admin) {
-        if (!this.getDevelopers().contains(admin)){
+        if (!this.getDevelopers().contains(admin)) {
             this.getDevelopers().add(admin);
         }
     }
@@ -120,7 +120,7 @@ public class Game extends Item {
         makeHashie();
     }
 
-    public void flipIsOutOfOrder(){
+    public void flipIsOutOfOrder() {
         this.setOutOfOrder(!this.isOutOfOrder());
     }
 
