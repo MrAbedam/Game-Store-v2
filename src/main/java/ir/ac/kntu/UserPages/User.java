@@ -190,6 +190,7 @@ public class User implements Comparable<User> {
         System.out.println("Wallet: " + getWallet() + "$");
         System.out.println("Phone number: " + getPhoneNumber());
         System.out.println(Colors.yellow + "Level: " + (int) this.getLevel() + Colors.reset);
+        System.out.println(Colors.cyan + "Xp: " + this.getXp() + Colors.reset);
         StoreOptions.showStoreGames(ownedItems, this);
         System.out.println("Press anything to go back.");
         getString();

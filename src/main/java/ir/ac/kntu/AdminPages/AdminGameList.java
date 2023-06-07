@@ -11,6 +11,7 @@ import java.util.Collections;
 import static ir.ac.kntu.AdminPages.AdminMainPage.allDevs;
 import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
+import static java.lang.Math.max;
 
 public class AdminGameList {
 
@@ -152,7 +153,22 @@ public class AdminGameList {
         System.out.println("4.Show all of games.");
         inboxNotif(admin);
         System.out.println("6.Out Of order games.");
-        System.out.println("7.Return.");
+        System.out.println("7.Summer sale");
+        System.out.println("8.Return.");
+    }
+
+    public static void summerSale(Admin admin){
+        if (!admin.isMainAdmin()){
+            System.out.println("Sorry you need admin Main_Role to access this section");
+        } else {
+            System.out.println("Enter discount percentage (example: 15)");
+            double ans = getDouble();
+            for (Game testGame : listOfGames){
+                testGame.setPrice(max((int) (testGame.getPrice()*(100-ans)/100),0));
+            }
+            System.out.println("Summer sale effected the prices!");
+        }
+        adminGameListMenu(admin);
     }
 
     public static void adminGameStatus(Admin admin){
@@ -245,6 +261,14 @@ public class AdminGameList {
         adminGameListMenu(admin);
     }
 
+    public static void adminShowGames(Admin admin){
+        showGivenListOfGames(listOfGames);
+        System.out.println("Enter anything to return to Admins gameList.");
+        String tmp = getString();
+        makeHashie();
+        adminGameListMenu(admin);
+    }
+
     public static void adminGameListMenu(Admin admin) {
         adminGameListMenuOptions(admin);
         String ans = getString();
@@ -263,11 +287,7 @@ public class AdminGameList {
                 break;
             }
             case "4": {
-                showGivenListOfGames(listOfGames);
-                System.out.println("Enter anything to return to Admins gameList.");
-                String tmp = getString();
-                makeHashie();
-                adminGameListMenu(admin);
+                adminShowGames(admin);
                 break;
             }
             case "5": {
@@ -278,7 +298,11 @@ public class AdminGameList {
                 adminGameStatus(admin);
                 break;
             }
-            case "7": {
+            case"7":{
+                summerSale(admin);
+                break;
+            }
+            case "8": {
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }

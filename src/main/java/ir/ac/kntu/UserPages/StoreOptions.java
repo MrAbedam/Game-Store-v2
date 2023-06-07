@@ -3,16 +3,13 @@ package ir.ac.kntu.UserPages;
 import ir.ac.kntu.AdminPages.Admin;
 import ir.ac.kntu.AdminPages.AdminGameList;
 import ir.ac.kntu.HelperClasses.Colors;
-import ir.ac.kntu.Products.Controller;
-import ir.ac.kntu.Products.Game;
-import ir.ac.kntu.Products.Item;
-import ir.ac.kntu.Products.Monitor;
+import ir.ac.kntu.Products.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static ir.ac.kntu.AdminPages.AdminGameList.listOfItems;
+import static ir.ac.kntu.AdminPages.AdminGameList.*;
 import static ir.ac.kntu.HelperClasses.Colors.*;
 import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
@@ -25,11 +22,47 @@ public class StoreOptions {
         System.out.println("1.Show all of items.");
         System.out.println("2.Search by name.");
         System.out.println("3.Search by price range.");
-        System.out.println("4.Show favorite items");
-        System.out.println("5.Calculate price item");
-        System.out.println("6.Return.");
+        System.out.println("4.Search by type.");
+        System.out.println("5.Show favorite items");
+        System.out.println("6.Calculate price item");
+        System.out.println("7.Return.");
         String ans = getString();
         return ans;
+    }
+
+    public static void searchByType(User user) {
+        System.out.println("1.Games");
+        System.out.println("2.Devices");
+        System.out.println("3.Monitors");
+        System.out.println("4.Controllers");
+        System.out.println("5.Return");
+        String ans = getString();
+        switch (ans) {
+            case "1": {
+                storeShowAllGivenProducts(user,"Game");
+                break;
+            }
+            case "2": {
+                storeShowAllGivenProducts(user,"Device");
+                break;
+            }
+            case "3": {
+                storeShowAllGivenProducts(user,"Monitor");
+                break;
+            }
+            case "4": {
+                storeShowAllGivenProducts(user,"Controller");
+                break;
+            }
+            case "5": {
+                storeMenu(user);
+                break;
+            }
+            default: {
+                System.out.println("Wrong input, redirecting to start of page.");
+                searchByType(user);
+            }
+        }
     }
 
 
@@ -68,6 +101,48 @@ public class StoreOptions {
         }
     }
 
+    public static ArrayList<Item> findItemBasedOnName(String name, String type) {
+        ArrayList<Item> filteredList = new ArrayList<Item>();
+        ArrayList<Item> searchList = new ArrayList<>();
+        switch (type) {
+            case "Game": {
+                searchList = new ArrayList<>(listOfGames);
+                break;
+            }
+            case "Controller": {
+                searchList = new ArrayList<>(listOfControllers);
+                break;
+            }
+            case "Device": {
+                searchList = new ArrayList<>(listOfDevices);
+                break;
+            }
+            default:{
+                searchList = new ArrayList<>(listOfMonitors);
+                break;
+            }
+        }
+        for (Item testItem : searchList) {
+            if (testItem.getName().startsWith(name)) {
+                filteredList.add(testItem);
+            }
+        }
+        return filteredList;
+    }
+
+    public static void storeShowAllGivenProducts(User user, String type) {
+        System.out.println("Enter name:");
+        String name = getString();
+        ArrayList<Item> givenListOfItems = findItemBasedOnName(name, type);
+        if (givenListOfItems.isEmpty()) {
+            System.out.println("Nothing matched, try again");
+        } else {
+            Item chosenItem = chooseItem(givenListOfItems, user);
+            chosenItem.showItemDetails(user);
+        }
+        storeMenu(user);
+    }
+
     public static void showStoreGamesBasedOnName(User user) {
         System.out.println("Enter the starting name:");
         String name = getString();
@@ -100,14 +175,18 @@ public class StoreOptions {
                 break;
             }
             case "4": {
-                showFavoriteItems(user);
+                searchByType(user);
                 break;
             }
             case "5": {
+                showFavoriteItems(user);
+                break;
+            }
+            case "6": {
                 calculatePriceItem(user);
                 break;
             }
-            case "6":{
+            case "7": {
                 Instant loginTime = Instant.now();
                 UserLoginPage.showUserLoggedInMenu(user);
                 break;
@@ -119,22 +198,22 @@ public class StoreOptions {
         }
     }
 
-    public static void calculatePriceItem(User user){
+    public static void calculatePriceItem(User user) {
         double sum = 0;
-        showStoreGames(listOfItems,user);
+        showStoreGames(listOfItems, user);
         System.out.println("Enter 0 to exit, enter item number to add to sum");
         int ans = getInt();
-        while(ans!=0){
-            sum += listOfItems.get(ans-1).getPrice();
-            if(sum>user.getWallet()){
+        while (ans != 0) {
+            sum += listOfItems.get(ans - 1).getPrice();
+            if (sum > user.getWallet()) {
                 System.out.print(red);
             }
-            System.out.println("Current sum: "+sum + reset);
+            System.out.println("Current sum: " + sum + reset);
             ans = getInt();
         }
-        System.out.println("Sum of all the chosen games would be "+sum+"$");
-        if (user.getLevel()>1){
-            System.out.println(cyan+"Buy you only need to pay "+sum * user.calculateDiscountLevel()+"$"+ reset);
+        System.out.println("Sum of all the chosen games would be " + sum + "$");
+        if (user.getLevel() > 1) {
+            System.out.println(cyan + "Buy you only need to pay " + sum * user.calculateDiscountLevel() + "$" + reset);
         }
         storeMenu(user);
     }
@@ -144,7 +223,7 @@ public class StoreOptions {
         Collections.sort(topItems);
         for (int cnt = 0; cnt < min(3, topItems.size()); cnt++) {
             if (topItems.get(cnt) != null) {
-                System.out.println(Colors.purple+(cnt+1)+". "+topItems.get(cnt).getName() + " => "
+                System.out.println(Colors.purple + (cnt + 1) + ". " + topItems.get(cnt).getName() + " => "
                         + topItems.get(cnt).getSoldNumber() + reset);
             }
         }
