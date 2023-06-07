@@ -221,6 +221,11 @@ public class AdminGameList {
     }
 
     public static void adminOutOfOrderGames(Admin admin){
+        if (listOfGames.isEmpty()){
+            System.out.println("No working games.");
+            adminGameListMenu(admin);
+            return;
+        }
         System.out.println("Choose a game to flip working status");
         int gameCounter = 0;
         for (Game testGame : listOfGames){

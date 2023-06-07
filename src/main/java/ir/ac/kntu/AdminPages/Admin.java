@@ -100,9 +100,6 @@ public class Admin implements Comparable<Admin>{
                 System.out.println("Game fixed");
                 this.scheduledEvents.remove(currentGame);
                 currentGame.flipIsOutOfOrder();
-                listOfItems.add(currentGame);
-                listOfGames.add(currentGame);
-                outOfOrderGames.remove(currentGame);
             }else {
                 sendGameToAnotherAdmin(currentGame);
             }
