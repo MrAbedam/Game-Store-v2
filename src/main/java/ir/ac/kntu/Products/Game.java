@@ -9,6 +9,7 @@ import ir.ac.kntu.UserPages.User;
 
 import java.util.ArrayList;
 
+import static ir.ac.kntu.AdminPages.AdminGameList.*;
 import static ir.ac.kntu.AdminPages.AdminMainPage.allAdmins;
 import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
@@ -33,11 +34,11 @@ public class Game extends Item {
         this.level = level;
         this.isBeta = isBeta;
         AdminGameList.listOfItems.add(this);
-        AdminGameList.listOfGames.add(this);
+        listOfGames.add(this);
         this.addDev(admin);
         this.firstDev = admin;
         for (Admin testAdmin : allAdmins) {
-            if (testAdmin.isMainAdmin()) {
+            if (testAdmin.isMainAdmin() && testAdmin!=firstDev) {
                 this.addDev(testAdmin);
             }
         }
@@ -55,7 +56,7 @@ public class Game extends Item {
     }
 
     public void addDev(Admin admin) {
-        if (!this.getDevelopers().contains(admin)) {
+        if (!this.getDevelopers().contains(admin) && (admin.isDeveloper())){
             this.getDevelopers().add(admin);
         }
     }
@@ -122,6 +123,15 @@ public class Game extends Item {
 
     public void flipIsOutOfOrder() {
         this.setOutOfOrder(!this.isOutOfOrder());
+        if (this.isOutOfOrder){
+            listOfGames.remove(this);
+            listOfItems.remove(this);
+            outOfOrderGames.add(this);
+        }else {
+            listOfGames.add(this);
+            listOfItems.add(this);
+            outOfOrderGames.remove(this);
+        }
     }
 
     public void changeGameName(Admin admin) {

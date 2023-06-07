@@ -217,9 +217,6 @@ public class AdminGameList {
         Game currentGame = outOfOrderGames.get(ans-1);
         currentGame.flipIsOutOfOrder();
         System.out.println("Status flipped!");
-        listOfGames.add(currentGame);
-        listOfItems.add(currentGame);
-        outOfOrderGames.remove(currentGame);
         adminGameListMenu(admin);
     }
 
@@ -234,9 +231,6 @@ public class AdminGameList {
         Game currentGame = listOfGames.get(ans-1);
         currentGame.flipIsOutOfOrder();
         System.out.println("Status flipped!");
-        listOfGames.remove(currentGame);
-        listOfItems.remove(currentGame);
-        outOfOrderGames.add(currentGame);
         notifyFreeDeveloper(currentGame);
         adminGameListMenu(admin);
     }
