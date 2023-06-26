@@ -2,6 +2,7 @@ package ir.ac.kntu.UserPages;
 
 import ir.ac.kntu.HelperClasses.UserHelperClass;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.HelperClasses.UserHelperClass.showFriends;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
 
-public class FriendOptions {
+public class FriendOptions implements Serializable {
 
     public static void showUserList(User user, ArrayList<User> userList) {
         System.out.println("Choose a friend to view their games.");

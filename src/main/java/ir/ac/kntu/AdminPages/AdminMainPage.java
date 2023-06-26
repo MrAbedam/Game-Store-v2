@@ -1,9 +1,11 @@
 package ir.ac.kntu.AdminPages;
 
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.HelperClasses.Colors;
 import ir.ac.kntu.StoreProgram;
 import ir.ac.kntu.UserPages.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -16,7 +18,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 
-public class AdminMainPage {
+public class AdminMainPage implements Serializable {
 
 
     static ArrayList<Admin> allDevs = new ArrayList<>();
@@ -100,6 +102,7 @@ public class AdminMainPage {
             }
             case "7": {
                 System.out.println("Redirecting to main menu.");
+                DaoWriter.writeAndReadAllLists();
                 StoreProgram.displayMenu();
                 break;
             }

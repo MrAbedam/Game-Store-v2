@@ -2,11 +2,13 @@ package ir.ac.kntu.AdminPages;
 
 import ir.ac.kntu.StoreProgram;
 
+import java.io.Serializable;
+
 import static ir.ac.kntu.AdminPages.AdminMainPage.allAdmins;
 import static ir.ac.kntu.AdminPages.AdminMainPage.displayAdminPage;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 
-public class AdminGetIn {
+public class AdminGetIn implements Serializable {
 
     public static Admin findAdmin(String userName) {
         for (Admin newAdmin : allAdmins) {

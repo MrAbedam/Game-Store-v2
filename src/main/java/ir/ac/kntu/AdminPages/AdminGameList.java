@@ -1,10 +1,12 @@
 package ir.ac.kntu.AdminPages;
 
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.HelperClasses.Colors;
 import ir.ac.kntu.Products.*;
 import ir.ac.kntu.UserPages.User;
 import ir.ac.kntu.HelperClasses.UserLoginHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,7 +15,7 @@ import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 import static java.lang.Math.max;
 
-public class AdminGameList {
+public class AdminGameList implements Serializable {
 
 
     public static ArrayList<Game> listOfGames = new ArrayList<>();
@@ -302,6 +304,7 @@ public class AdminGameList {
                 break;
             }
             case "8": {
+                DaoWriter.writeAndReadAllLists();
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }

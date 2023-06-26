@@ -3,13 +3,14 @@ package ir.ac.kntu.Products;
 import ir.ac.kntu.UserPages.User;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static ir.ac.kntu.HelperClasses.Colors.blue;
 import static ir.ac.kntu.HelperClasses.Colors.reset;
 
-public class Item implements Comparable<Item>{
+public class Item implements Comparable<Item>, Serializable {
 
     private int soldNumber;
 
@@ -121,6 +122,6 @@ public class Item implements Comparable<Item>{
 
     @Override
     public int compareTo(Item otherItem) {
-        return (-this.getSoldNumber()+otherItem.getSoldNumber());
+        return (-this.getSoldNumber() + otherItem.getSoldNumber());
     }
 }

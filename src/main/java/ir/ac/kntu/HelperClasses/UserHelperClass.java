@@ -2,9 +2,11 @@ package ir.ac.kntu.HelperClasses;
 
 import ir.ac.kntu.AdminPages.Admin;
 import ir.ac.kntu.AdminPages.AdminUserList;
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.Products.Game;
 import ir.ac.kntu.UserPages.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.HelperClasses.Get.getString;
@@ -12,7 +14,7 @@ import static ir.ac.kntu.StoreProgram.makeHashie;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.isPasswordValid;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.usernameExists;
 
-public class UserHelperClass {
+public class UserHelperClass implements Serializable {
 
 
     public static void changeUserDetailsAsAdmin(User user, Admin admin) {
@@ -36,6 +38,7 @@ public class UserHelperClass {
                 break;
             }
             case "5": {
+                DaoWriter.writeAndReadAllLists();
                 AdminUserList.adminUserListMenu(admin);
                 break;
             }
@@ -45,6 +48,7 @@ public class UserHelperClass {
                 break;
             }
         }
+        DaoWriter.writeAndReadAllLists();
         AdminUserList.adminUserListMenu(admin);
     }
 

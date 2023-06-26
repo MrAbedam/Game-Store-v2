@@ -7,6 +7,7 @@ import ir.ac.kntu.Products.Game;
 import ir.ac.kntu.Products.Item;
 import ir.ac.kntu.Products.Monitor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.UserPages.FriendOptions.removeUsersFromRequests;
@@ -14,7 +15,7 @@ import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.isPasswordValid;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.usernameExists;
 
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, Serializable {
 
     static final double  FIRSTDISCOUNT = 0.9;
 

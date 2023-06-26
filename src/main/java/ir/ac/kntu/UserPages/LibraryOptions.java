@@ -2,6 +2,7 @@ package ir.ac.kntu.UserPages;
 
 import ir.ac.kntu.Products.Item;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import static ir.ac.kntu.HelperClasses.Colors.green;
 import static ir.ac.kntu.HelperClasses.Colors.reset;
 import static ir.ac.kntu.HelperClasses.Get.*;
 
-public class LibraryOptions {
+public class LibraryOptions implements Serializable {
 
 
     public static double getMinPrice() {

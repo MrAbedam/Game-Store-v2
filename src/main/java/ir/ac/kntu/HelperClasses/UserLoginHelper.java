@@ -2,10 +2,11 @@ package ir.ac.kntu.HelperClasses;
 
 import ir.ac.kntu.UserPages.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class UserLoginHelper {
+public class UserLoginHelper implements Serializable {
 
     public static ArrayList<User> allUsers = new ArrayList<>();
 

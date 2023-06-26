@@ -1,9 +1,13 @@
 package ir.ac.kntu.UserPages;
 
+import ir.ac.kntu.DaoWriter;
+
+import java.io.Serializable;
+
 import static ir.ac.kntu.HelperClasses.Get.getDouble;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 
-public class ProfileOption {
+public class ProfileOption implements Serializable {
     public static void profileChoices(User user) {
         System.out.println("Enter an option:");
         System.out.println("1.Show profile.");
@@ -19,6 +23,7 @@ public class ProfileOption {
             }
             case "2": {
                 user.changeUserDetails();
+                DaoWriter.writeAndReadAllLists();
                 break;
             }
             case "3": {
@@ -31,6 +36,7 @@ public class ProfileOption {
                 break;
             }
             case "4": {
+                DaoWriter.writeAndReadAllLists();
                 UserLoginPage.showUserLoggedInMenu(user);
                 break;
             }

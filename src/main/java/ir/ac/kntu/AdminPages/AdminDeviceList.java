@@ -1,9 +1,11 @@
 package ir.ac.kntu.AdminPages;
 
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.Products.Controller;
 import ir.ac.kntu.Products.Device;
 import ir.ac.kntu.Products.Monitor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.AdminPages.AdminGameList.listOfDevices;
@@ -11,7 +13,7 @@ import static ir.ac.kntu.AdminPages.AdminGameList.removeItem;
 import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.StoreProgram.makeHashie;
 
-public class AdminDeviceList {
+public class AdminDeviceList implements Serializable {
 
     public static void adminDeviceListMenuOptions() {
         System.out.println("Admins gameList page.");
@@ -40,6 +42,7 @@ public class AdminDeviceList {
                 break;
             }
             case "3": {
+                DaoWriter.writeAndReadAllLists();
                 adminDeviceListMenu(admin);
                 break;
             }
@@ -159,6 +162,7 @@ public class AdminDeviceList {
                 break;
             }
             case "7": {
+                DaoWriter.writeAndReadAllLists();
                 adminDeviceListMenu(admin);
                 break;
             }
@@ -288,6 +292,7 @@ public class AdminDeviceList {
                 break;
             }
             case "5": {
+                DaoWriter.writeAndReadAllLists();
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }

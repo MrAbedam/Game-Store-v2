@@ -11,7 +11,7 @@ import static ir.ac.kntu.AdminPages.AdminDeviceList.changeControllerDetails;
 import static ir.ac.kntu.HelperClasses.Get.getInt;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 
-public class Controller extends Device {
+public class Controller extends Device  {
 
     private String console;
 

@@ -2,9 +2,11 @@ package ir.ac.kntu.UserPages;
 
 import ir.ac.kntu.AdminPages.Admin;
 import ir.ac.kntu.AdminPages.AdminGameList;
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.HelperClasses.Colors;
 import ir.ac.kntu.Products.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,7 @@ import static ir.ac.kntu.HelperClasses.Get.*;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
 import static java.lang.Math.min;
 
-public class StoreOptions {
+public class StoreOptions implements Serializable {
 
     public static String storeMenuList() {
         System.out.println("Welcome to store.");
@@ -187,6 +189,7 @@ public class StoreOptions {
                 break;
             }
             case "7": {
+                DaoWriter.writeAndReadAllLists();
                 Instant loginTime = Instant.now();
                 UserLoginPage.showUserLoggedInMenu(user);
                 break;

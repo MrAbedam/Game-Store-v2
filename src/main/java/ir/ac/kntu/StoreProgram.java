@@ -11,10 +11,12 @@ import ir.ac.kntu.UserPages.User;
 import ir.ac.kntu.UserPages.UserRegistrationPage;
 import ir.ac.kntu.UserPages.UserLoginPage;
 
+import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 
 
+import static ir.ac.kntu.AdminPages.AdminGameList.listOfItems;
 import static ir.ac.kntu.AdminPages.AdminMainPage.allAdmins;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.allUsers;
@@ -88,6 +90,26 @@ public class StoreProgram {
         }
     }
 
+    public static void updateDataStorage() {
+        File file = new File("sss.txt");
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+            for (User testUser : allUsers) {
+                String currentUserData = "Name: "+testUser.getUserName()+" password: "+testUser.getPassWord()+" number: "+testUser.getPhoneNumber()+" wallet: "+testUser.getWallet();
+                currentUserData += " Games: ";
+                for (Item testItem: testUser.getOwnedItems()){
+                    currentUserData += testItem.getName()+"=> "+testItem.getPrice();
+                }
+                currentUserData += " Friends: ";
+                for (User testFriend : testUser.getFriends()){
+                    currentUserData += " "+testFriend.getUserName();
+                }
+                bufferedWriter.write(currentUserData+ "\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static void tryInputAgain() {
         System.out.println("Wrong Input!");
         System.out.println("1.Retry");
@@ -117,8 +139,8 @@ public class StoreProgram {
         }
     }
 
-    public static void main(String[] args) {
-        Admin admin = new Admin("aaa", "123");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        /*Admin admin = new Admin("aaa", "123");
         admin.addMainRole();
         Admin adminSell = new Admin("sell", "sell");
         adminSell.addSellerRole();
@@ -127,15 +149,17 @@ public class StoreProgram {
         Admin adminDev2 = new Admin("dev2", "dev2");
         adminDev2.addDeveloperRole();
 
+
+
         Game game1 = new Game("cod",
                 "Call of Duty: Advanced Warfare is a 2014 first-person shooter video game published by Activision.",
                 "Action fps-shooter",
-                59.99, 2, true,admin);
+                59.99, 2, true, admin);
         Game game2 = new Game("Dota2",
                 "Dota 2 is a 2013 multiplayer online battle arena video game by Valve. The game is a sequel to Defense of the Ancients," +
                         "a community-created mod for Blizzard Entertainment's Warcraft III: Reign of Chaos.",
                 "Strategy Moba",
-                0.0, 1, false,adminDev);
+                0.0, 1, false, adminDev);
         Controller device1 = new Controller("keyboard", "damn", 15, 1, "mmd", true);
         Controller device2 = new Controller("daste", "khar", 150, 2, "mmk", false);
         Monitor device3 = new Monitor("monitor", "khar", 150, 2, 50, 50, 50, 100);
@@ -146,10 +170,16 @@ public class StoreProgram {
         ArrayList<Item> user1Items = new ArrayList<>();
         User user1 = new User("mmd", "12345678Aa", "mmd@gmail.com", "09363340618");
         User user2 = new User("eli", "12345678Aa", "mmd@gmail.com", "09363340618");
+
         user1.setWallet(150);
         user2.setWallet(1000);
         allUsers.add(user1);
         allUsers.add(user2);
+*/
+
+        listOfItems = DaoWriter.readItem();
+        allAdmins = DaoWriter.readAdmin();
+        allUsers = DaoWriter.readUsers();
         displayMenu();
     }
 }

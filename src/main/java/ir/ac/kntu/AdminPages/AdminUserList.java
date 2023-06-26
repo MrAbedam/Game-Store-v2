@@ -1,16 +1,18 @@
 package ir.ac.kntu.AdminPages;
 
+import ir.ac.kntu.DaoWriter;
 import ir.ac.kntu.UserPages.User;
 import ir.ac.kntu.HelperClasses.UserHelperClass;
 import ir.ac.kntu.HelperClasses.UserLoginHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.HelperClasses.Get.getInt;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 import static ir.ac.kntu.HelperClasses.UserLoginHelper.*;
 
-public class AdminUserList {
+public class AdminUserList implements Serializable {
     public static void findUserBasedOnOptions() {
         System.out.println("Enter choice:");
         System.out.println("1.Search by name");
@@ -134,6 +136,7 @@ public class AdminUserList {
                 break;
             }
             case "5": {
+                DaoWriter.writeAndReadAllLists();
                 AdminMainPage.displayAdminPage(admin);
                 break;
             }

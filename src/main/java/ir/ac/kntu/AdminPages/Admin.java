@@ -3,6 +3,7 @@ package ir.ac.kntu.AdminPages;
 import ir.ac.kntu.Products.Game;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static ir.ac.kntu.AdminPages.AdminGameList.*;
@@ -10,7 +11,7 @@ import static ir.ac.kntu.AdminPages.AdminMainPage.*;
 import static ir.ac.kntu.HelperClasses.Get.getInt;
 import static ir.ac.kntu.HelperClasses.Get.getString;
 
-public class Admin implements Comparable<Admin>{
+public class Admin implements Comparable<Admin>, Serializable {
     private String roles = "";
 
     private String username;
